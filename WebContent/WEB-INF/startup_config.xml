@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<!-- A view resolver for controller to view mapping -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- For multipart file support -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<property name="maxUploadSize" value="10000000"/>
+	</bean>
+	
+	<!-- JNDI based database support using hibernate -->
+	<!-- Create session factory -->
+	<bean id="factory" class="com.sgrh.localSessionFactory.VisitorSessionFactory" init-method="init" destroy-method="destroy">
+		<property name="dataSource" ref="myDataSource" />
+		<property name="packagesToScan" value="com.sgrh.bean" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop> 
+			</props>
+		</property>
+	</bean>
+	<!-- Create transaction Manager -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="factory" />
+	</bean>
+	<!-- Static resource location -->
+	<mvc:resources location="/resources/"
+		mapping="/static_resource/**">
+	</mvc:resources>
+	
+	<!-- Context configurations -->
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="com.sgrh.controller,com.sgrh.services,com.sgrh.dao"></context:component-scan>
+	<context:property-placeholder
+		location="classpath:com/sgrh/props/path.properties" />
+		
+	<!-- MVC configuration -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- JEE configuration to set JNDI Datasource -->
+	<jee:jndi-lookup jndi-name="java:/comp/env/jdbc/GatePass" id="myDataSource"
+		expected-type="javax.sql.DataSource">
+	</jee:jndi-lookup>
+	
+	<!-- Annotation based Transaction Support -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
