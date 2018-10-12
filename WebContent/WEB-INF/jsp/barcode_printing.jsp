@@ -7,6 +7,24 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<% 
+	boolean flag = false;
+		// Login logic, if session is not set ask user to login.
+		HttpSession session1 = request.getSession();
+		boolean loggedIn = false;
+		try{
+			loggedIn = (Boolean)session1.getAttribute("isLogged");
+		}
+		catch(NullPointerException ex){
+			response.sendRedirect("login_page?page=redirect:printing");
+			return;
+		}
+		if(loggedIn == false){
+			System.out.println("False block called.");
+			response.sendRedirect("login_page?page=redirect:printing");
+			return;
+		}
+	%>
 	<div id="main">
 		<button id="myButton">Print</button>
     </div>

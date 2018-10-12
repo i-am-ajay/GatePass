@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sgrh.bean.User;
 import com.sgrh.bean.Visitor;
 import com.sgrh.localSessionFactory.VisitorSessionFactory;
 
@@ -45,5 +46,19 @@ public class VisitorDAOImp {
 			System.out.println("Not able to get Object");
 		}
 		return session.get(Visitor.class,id);
+	}
+	
+	@Transactional
+	public User getUser(String username) {
+		Session session = null;
+		try {
+			SessionFactory sFactory = factory.getObject();
+			session = sFactory.openSession();
+			//session.get(User.class, username);
+		}
+		catch(Exception ex) {
+			System.out.println("Not a valid user");
+		}
+		return session.get(User.class, username);
 	}
 }

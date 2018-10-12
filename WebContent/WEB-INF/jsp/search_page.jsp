@@ -11,6 +11,24 @@
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
 </head>
 <body>
+	<!-- Login Support -->
+	<%
+		boolean flag = false;
+		// Login logic, if session is not set ask user to login.
+		HttpSession session1 = request.getSession();
+		boolean loggedIn = false;
+		try{
+			loggedIn = (Boolean)session1.getAttribute("isLogged");
+		}
+		catch(NullPointerException ex){
+			response.sendRedirect("login_page?page=redirect:search");
+			return;
+		}
+		if(loggedIn == false){
+			response.sendRedirect("login_page?page=redirect:search");
+			return;
+		}
+	%>
 	<div class="container">
 	<%@ include file="header.jsp"%>
 		<div class="mt-3">&nbsp;</div>

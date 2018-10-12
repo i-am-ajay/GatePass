@@ -20,6 +20,31 @@
 
 </head>
 <body>
+	<!-- Login Support -->
+	
+	<!-- Login Support -->
+	<%
+		boolean flag = false;
+		// Login logic, if session is not set ask user to login.
+		HttpSession session1 = request.getSession();
+		boolean loggedIn = false;
+		try{
+			System.out.println("Index page is called.");
+			loggedIn = (Boolean)session1.getAttribute("isLogged");
+		}
+		catch(NullPointerException ex){
+			System.out.println("Catch Called");
+			response.sendRedirect("login_page?page=redirect:/");
+			return;
+		}
+		if(loggedIn == false){
+			System.out.println("False block called.");
+			response.sendRedirect("login_page?page=redirect:/");
+			return;
+		}
+	%>
+	
+	
 	<!-- navigation bar -->
 
 	<div class="container">
@@ -148,6 +173,9 @@
 			<c:out value="${item.key} -> ${item.value}" />
 		</c:forEach>
 		</div>
+		<div>
+		
+	</div>
 	</div>
 
 	<!-- In page javascript. -->
