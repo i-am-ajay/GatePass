@@ -49,7 +49,7 @@ public class Visitor {
 	@DateTimeFormat(pattern="HH:mm")
 	private LocalTime visitTime;
 	
-	@Column(name="departure_date")
+/*	@Column(name="departure_date")
 	@DateTimeFormat(iso=ISO.DATE)
 	private LocalDate departureDate;
 	
@@ -58,10 +58,13 @@ public class Visitor {
 	private LocalTime departureTime;
 
 	@Column(name="stay_duration")
-	private int stayDuration;
+	private int stayDuration;*/
 	
 	@Column(name="image_path")
 	private String imagePath;
+	
+	@Column(name="id_image_path")
+	private String idImagePath;
 	
 	public Visitor() {
 		System.out.println("Visitor Called.");
@@ -117,7 +120,7 @@ public class Visitor {
 		this.visitDate = visitDate;
 	}
 	
-	// departure date
+	/*// departure date
 	public LocalDate getDepartureDate() {
 		return departureDate;
 	}
@@ -130,7 +133,7 @@ public class Visitor {
 	}
 	public void setStayDuration(int stayDuration) {
 		this.stayDuration = stayDuration;
-	}
+	}*/
 	//save image path
 	public String getImagePath() {
 		return imagePath;
@@ -144,10 +147,20 @@ public class Visitor {
 	public void setVisitTime(LocalTime visitTime) {
 		this.visitTime = visitTime;
 	}
-	public LocalTime getDepartureTime() {
+	/*public LocalTime getDepartureTime() {
 		return departureTime;
 	}
 	public void setDepartureTime(LocalTime departureTime) {
 		this.departureTime = departureTime;
+	}*/
+
+	public String getIdImagePath() {
+		return idImagePath;
 	}
+
+	public void setIdImagePath(String idImagePath) {
+		this.idImagePath = idImagePath;
+	}
+	
+	
 }

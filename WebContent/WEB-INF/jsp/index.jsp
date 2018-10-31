@@ -53,119 +53,68 @@
 		<div class="mt-5">
 			<!-- Visitor Form -->
 			<sf:form action="uploadParser" modelAttribute="visitor" id="qq-form" enctype="multipart/form-data">
-				<div class="row">
-					<div class="form-group col-6">
+					<div class="form-group row">
 						<sf:input type="hidden" id="entity_id" path="id" />
 						<!-- Full Name -->
-						<label for="full_name_id" class="control-label font-weight-bold">Full
+						<label for="full_name_id" class="control-label col-3 col-sm-2 font-weight-bold">Full
 							Name</label>
-						<sf:input type="text" class="form-control form-control-sm"
+						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
 							id="full_name_id" path="name" placeholder="Enter Name" />
 						<sf:errors path="name" element="div"
 							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
 					</div>
-					<div class="col-6 h-50">
-						<%@ include file="file_uploader.jsp" %>
-						<div id="my-uploader"></div>
-					</div>
-				</div>
-				<div class="form-group">
+					
+				<div class="form-group row">
 					<!-- Address -->
-					<label for="address_id" class="control-label font-weight-bold">
+					<label for="address_id" class="control-label col-3 col-sm-2 font-weight-bold">
 						Address</label>
-					<sf:input type="text" class="form-control form-control-sm"
+					<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
 						id="address_id" name="address" path="address"
 						placeholder="Address" />
 				</div>
 
-				<div class="row">
-					<div class="form-group col-4">
-						<!-- Contact -->
-						<label for="contact_id" class="control-label font-weight-bold">Contact</label>
-						<sf:input type="text" class="form-control form-control-sm"
+				<div class="form-group row">
+					<!-- Contact -->
+					<label for="contact_id" class="control-label col-3 col-sm-2 font-weight-bold">Contact</label>
+					<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
 							id="contact_id" name="contact" path="contact"
 							placeholder="#Contact" />
 					</div>
 
 					<!-- Company Details -->
-					<div class="form-group col-4">
+					<div class="form-group row">
 						<!-- City-->
-						<label for="company_id" class="control-label font-weight-bold">Company</label>
-						<sf:input type="text" class="form-control form-control-sm"
+						<label for="company_id" class="control-label font-weight-bold col-3 col-sm-2">Company</label>
+						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
 							id="company_id" name="company" path="company"
 							placeholder="Company Name" />
 					</div>
-
+					
 					<!-- Visit Reason -->
-					<div class="form-group col-4">
-						<label for="visitR_id" class="control-label font-weight-bold">Visiting
+					<div class="form-group row">
+						<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
 							Department</label>
-						<sf:input type="text" class="form-control form-control-sm"
+						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
 							id="visitR_id" name="Visit" path="visitReason"
 							placeholder="Visit Reason" />
 						<sf:errors path="visitReason" element="div"
 							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
 					</div>
-				</div>
-				<div class="row">
-					<!-- Visit Timings-->
-					<div class="form-group col">
-						<label for="vdate_id" class="control-label font-weight-bold">Visit
-							Date</label>
-						<sf:input type="date" class="form-control form-control-sm"
-							path="visitDate" name="visitDate" placeholder="dd-mm-yyyy"
-							id="visitDateId" />
-					</div>
- 
-					<div class="form-group col">
-						<label for="vtime_id" class="control-label font-weight-bold">Visit
-							Time</label>
-						<sf:input type="time" class="form-control form-control-sm"
-							id="visitTimeId" path="visitTime" name="visitTime"
-							placeholder="hh:mm a" />
-					</div>
-		
-				<!-- Duration -->
-				</div>
-				<div class="row">
-					<!-- Departure Date -->
-					<div class="form-group col-4">
-						<label for="ddate_id" class="control-label font-weight-bold">Departure
-							Date</label>
-						<sf:input type="date" class="form-control form-control-sm"
-							path="departureDate" name="departureDate"
-							placeholder="dd-mm-yyyy" id="departureDateId" />
-						<sf:errors path="departureDate" element="div"
-							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
-					</div> 
-					<!--Departure Time-->
-					<div class="form-group col-4">
-						<label for="dtime_id" class="control-label font-weight-bold">Departure
-							Time</label>
-						<sf:input type="time" class="form-control form-control-sm"
-							path="departureTime" name="departureTime" placeholder="HH:mm"
-							id="departureTimeId" />
-						<sf:errors path="departureTime" element="div"
-							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
-					</div>
 					
-					<div class="form-group col-4">
-						<label for="stay_id" class="control-label font-weight-bold">Stay
-							Duration</label>
-						<sf:input type="text" class="form-control form-control-sm"
-							path="stayDuration" name="stayDuration" id="stayDurationId"
-							placeholder="Stay time in hours" />
-					</div>
-				</div>
-				<!-- File uploader code -->
-
-				
-					<div class="form-groups">
+					<!-- Send to Photo Click page -->
+					
+					
+					<div class="form-groups row">
 						<!-- Submit Button -->
+						<div class="col-8 col-md-8 m-md-auto m-sm-left">
 						<sf:button id="trigger-upload" type="submit"
 							class="btn btn-sm btn-block btn-secondary">Generate</sf:button>
+						</div>
 					</div>
-			</sf:form>
+				</sf:form>
+		
+		</div>
+				
 		</div>
 		<!-- Response Check -->
 		<div>
@@ -173,72 +122,6 @@
 			<c:out value="${item.key} -> ${item.value}" />
 		</c:forEach>
 		</div>
-		<div>
-		
-	</div>
-	</div>
-
-	<!-- In page javascript. -->
-	<script type="text/javascript">
-    	var uploader = new qq.FineUploader({
-        	element: document.getElementById('my-uploader'),
-        	callbacks:{
-        		onComplete: function(id, name, responseJSON, xhr){
-        				console.log("called");
-        				window.location.href="processed?id="+responseJSON['visitor_id'];
-        		}
-        	}
-    	});
-		(
-		// Auto update departure date and time on blur of slotfield if departure date and time is not entered.	
-		function() {
-			var date = Date();
-			//alert(date);
-			document
-				.getElementById("stayDurationId")
-				.addEventListener(
-					"blur",
-					function() {
-						// departure date
-						var departureDateElement = document
-							.getElementById("departureDateId")
-						var departureDate = departureDateElement.value;
-						// departure time.
-						var departureTimeElement = document.getElementById("departureTimeId")
-						var departureTime = departureTimeElement.value;
-						// if departureDate and Time is filled then skip.
-							if (departureDate != "" && departureTime != "") {
-								alert("in condition");
-								return;
-							}
-
-					/*------------- Departure date and time is not filled by user --------------*/
-						// find departure date and time on the basis of stay duration
-						var stayDuration = document
-							.getElementById("stayDurationId").value;
-						stayDuration = stayDuration || 2;
-						alert(stayDuration);
-						var visitDate = document
-							.getElementById("visitDateId").value;
-						var visitTime = document
-							.getElementById("visitTimeId").value;
-						// Create Moment from visit date time.
-						var vDateTime = visitDate + " " + visitTime;
-						alert(vDateTime);
-						var moment1 = moment(vDateTime,
-							"YYYY-MM-DD HH:mm ");
-
-						alert(moment1);
-						moment1.add(stayDuration, 'h');
-						departureDateElement.value = moment1
-							.format("YYYY-MM-DD");
-						document.getElementById("departureTimeId").value = moment1
-							.format("HH:mm");
-					});
-		}()
-		);
-		
-	</script>
 		
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static_resource/js/jquery.min.js"></script>
