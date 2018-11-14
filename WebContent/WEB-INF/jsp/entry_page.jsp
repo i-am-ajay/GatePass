@@ -52,67 +52,47 @@
 		<div class="mt-3">&nbsp;</div>
 		<div class="mt-5">
 			<!-- Visitor Form -->
-			<sf:form action="image_capture" modelAttribute="visitor" id="qq-form" enctype="multipart/form-data">
-					<div class="form-group row">
-						<sf:input type="hidden" id="entity_id" path="id" />
-						<input type="hidden" name="img" value="person_img" />
-						<!-- Full Name -->
-						<label for="full_name_id" class="control-label col-3 col-sm-2 font-weight-bold">Full
-							Name</label>
-						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
-							id="full_name_id" path="name" placeholder="Enter Name" />
-						<sf:errors path="name" element="div"
-							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
-					</div>
-					
+			<sf:form action="processed" modelAttribute="visitor">
+				<!-- Visit Reason -->
 				<div class="form-group row">
-					<!-- Address -->
-					<label for="address_id" class="control-label col-3 col-sm-2 font-weight-bold">
-						Address</label>
+					<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
+						Department</label>
 					<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
-						id="address_id" name="address" path="address"
-						placeholder="Address" />
+						id="visitR_id" name="Visit" path="visitReason"
+						placeholder="Visit Reason" />
+					<sf:errors path="visitReason" element="div"
+						cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
+				</div>
+				
+
+				<!-- Visit Timings-->
+				<div class="form-group row">
+					<label for="vdate_id" class="control-label font-weight-bold col-3 col-sm-2">Visit
+						Date</label>
+					<sf:input type="date" class="form-control form-control-sm col-6 col-md-8"
+						path="visitDate" name="visitDate" placeholder="dd-mm-yyyy"
+						id="visitDateId" />
 				</div>
 
 				<div class="form-group row">
-					<!-- Contact -->
-					<label for="contact_id" class="control-label col-3 col-sm-2 font-weight-bold">Contact</label>
-					<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
-							id="contact_id" name="contact" path="contact"
-							placeholder="#Contact" />
+					<label for="vtime_id" class="control-label font-weight-bold col-3 col-sm-2">Visit
+						Time</label>
+					<sf:input type="time" class="form-control form-control-sm col-6 col-md-8"
+						id="visitTimeId" path="visitTime" name="visitTime"
+						placeholder="hh:mm a" />
+				</div>
+				
+				<!-- Send to Photo Click page -->
+				
+				
+				<div class="form-groups row">
+					<!-- Submit Button -->
+					<div class="col-8 col-md-8 m-md-auto m-sm-left">
+					<sf:button type="submit"
+						class="btn btn-sm btn-block btn-secondary">Save</sf:button>
 					</div>
-
-					<!-- Company Details -->
-					<div class="form-group row">
-						<!-- City-->
-						<label for="company_id" class="control-label font-weight-bold col-3 col-sm-2">Company</label>
-						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
-							id="company_id" name="company" path="company"
-							placeholder="Company Name" />
-					</div>
-					
-					<!-- Visit Reason -->
-					<div class="form-group row">
-						<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
-							Department</label>
-						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
-							id="visitR_id" name="Visit" path="visitReason"
-							placeholder="Visit Reason" />
-						<sf:errors path="visitReason" element="div"
-							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
-					</div>
-					
-					<!-- Send to Photo Click page -->
-					
-					
-					<div class="form-groups row">
-						<!-- Submit Button -->
-						<div class="col-8 col-md-8 m-md-auto m-sm-left">
-						<sf:button id="trigger-upload" type="submit"
-							class="btn btn-sm btn-block btn-secondary">Generate</sf:button>
-						</div>
-					</div>
-				</sf:form>
+				</div>
+			</sf:form>
 		
 		</div>
 				

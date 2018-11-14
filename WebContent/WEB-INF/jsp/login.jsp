@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import = "java.nio.file.Paths" %>
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
@@ -87,6 +88,9 @@
                     <!--  <a class="btn btn-link" href="/password/reset">Forgot Your Password?</a>-->
                 </div>
             </div>
+            <%
+            	out.println(Paths.get(request.getRequestURI()).getFileName());
+            %>
         </form>
     </div>
     <script type="text/javascript"

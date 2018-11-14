@@ -19,7 +19,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,8 +40,10 @@ import com.sgrh.dao.VisitorDAOImp;
 import com.sgrh.fineupload.io.StorageService;
 import com.sgrh.fineupload.model.UploadRequest;
 import com.sgrh.fineupload.model.UploadResponse;
+import com.sgrh.utility.Base64ToImage;
 
 @Controller
+@SessionAttributes("visitor")
 public class GatePassMainController {
 	
 	@Autowired
@@ -48,7 +53,7 @@ public class GatePassMainController {
 	
 	
 	@RequestMapping(value="/")
-	public String mainForm(Model model) {
+	public String mainForm(final Model model) {
 		Visitor visitor = new Visitor();
 		visitor.setVisitDate(LocalDate.now());
 		visitor.setVisitTime(LocalTime.now());
@@ -57,7 +62,11 @@ public class GatePassMainController {
 	}
 	
 	@RequestMapping("save")
-	public String saveForm(Model model) {
+	public String saveForm(@RequestParam("person_img") String personImg, @RequestParam("id_img") String idImg, Model model, 
+			@Valid @ModelAttribute("visitor") Visitor visitor, BindingResult result, HttpSession session) {
+		System.out.println(personImg);
+		Visitor v = (Visitor)session.getAttribute("visitor");
+		System.out.println(v.getName());
 		return "save_visitor_data";
 	}
 	
@@ -74,8 +83,21 @@ public class GatePassMainController {
 	}
 	
 	@RequestMapping("processed")
-	public String fileUploader(Model model, @RequestParam("id") int id) {
-		Visitor visitor = visitorDao.getVisitor(id);
+	public String fileUploader(Model model, @ModelAttribute("visitor") final Visitor visitor, 
+			final Errors error /*@RequestParam("id") int id*/, HttpSession session, HttpServletRequest request) {
+		//Visitor visitor1 = visitorDao.getVisitor(id);
+		Visitor vis = (Visitor)session.getAttribute("visitor");
+		String imgName = vis.getName() + vis.getContact();
+		String personImgName = imgName+"_person.png";
+		String idImage = imgName+"_id.png";
+		String realPath = request.getServletContext().getRealPath(File.separator);
+		// Save person image
+		Base64ToImage.getImageFromBase64(vis.getImagePath(), personImgName, realPath);
+		
+		// Save id image
+		Base64ToImage.getImageFromBase64(vis.getIdImagePath(), idImage, realPath);
+		visitor.setImagePath(personImgName);
+		visitor.setIdImagePath(idImage);
 		model.addAttribute("visitor",visitor);
 		return "processed_form";
 	}
@@ -123,10 +145,30 @@ public class GatePassMainController {
 				e.printStackTrace();
 			}
 	    }
+	
+	// page for user image
+	@RequestMapping("/image_capture")
+	public String captureImage(Model model,final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
+		model.addAttribute("visitor",visitor); 
+		return "person_pic";
+	}
+	
+	@RequestMapping("/id_image_capture")
+	public String captuerIdImage(Model model, final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
+		model.addAttribute("visitor", visitor);
+		return "person_pic";
+	}
+	
 	@RequestMapping("login_page")
 	public String login(Model model,@RequestParam String page){
 		model.addAttribute("redirectPage", page);
 		return "login";
+	}
+	
+	@RequestMapping("entry_page")
+	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
+		model.addAttribute("visitor",visitor);
+		return "entry_page";
 	}
 	
 	@RequestMapping("process_login")
@@ -155,4 +197,5 @@ public class GatePassMainController {
 		System.out.println(page);
 		return redirectPath;
 	}
+	
 }

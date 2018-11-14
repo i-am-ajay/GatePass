@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,6 +11,8 @@
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
 <link rel="stylesheet" media="print"
 	href="${pageContext.request.contextPath}/static_resource/css/printing.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/static_resource/css//fine_uploader_new.css" />
 </head>
 <body>
 	
@@ -41,64 +44,65 @@
 			</div>
 				<!-- Name & Contact -->
 				<div class="row">
-					<div class="col-2 border font-weight-bold text-uppercase p-2 pl-2">
+					<div class="col-md-3 col-sm-6 border font-weight-bold text-uppercase p-2 pl-2">
 						Name</div>
-					<div class="col-3 border text-capitalize p-1 pl-5">
+					<div class="col-md-3 col-sm-6 border text-capitalize p-1 pl-5">
 						${visitor.name}</div>
 					<div
-						class="div-2 col-2 border font-weight-bold text-uppercase p-1 pl-2">Contact</div>
-					<div class="col-3 border text-capitalize p-1 pl-5">${visitor.contact}</div>
-					<div class="col-2 border ">
-						<img 
-							src="${pageContext.request.contextPath}/static_resource/upload/${visitor.imagePath}" 
-							width=100
-							height=100
-						/>
-					</div>
+						class="div-2 col-md-3 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">Contact</div>
+					<div class="col-md-3 col-sm-6 border text-capitalize p-1 pl-5">${visitor.contact}</div>
 				</div>
 	
 				<!--  Company Details -->
 				<div class="row">
-					<div class="col-2 border font-weight-bold text-uppercase p-1 pl-2">
+					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Company</div>
-					<div class="col-4 border text-capitalize p-1 pl-5">
+					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">
 						${visitor.company}</div>
 					<div
-						class="div-2 col-2 border font-weight-bold text-uppercase p-1 pl-2">Address</div>
-					<div class="col-4 border text-capitalize p-1 pl-5">${visitor.address}</div>
+						class="div-2 col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">Address</div>
+					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">${visitor.address}</div>
 				</div>
 				<!-- Visit Reason -->
 				<div class="row">
-					<div class="col-2 border font-weight-bold text-uppercase p-1 pl-2">
+					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Visit Reason</div>
-					<div class="col-10 border text-capitalize p-1 pl-5">
+					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">
 						${visitor.visitReason}</div>
-				</div>
-	
-				<!-- Timing Details -->
-				<!-- Header row -->
-				<div class="row">
-					<div class="col-4 border font-weight-bold text-center text-uppercase p-1 pl-2">
+					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Visit Time</div>
-					<div class="col-4 border font-weight-bold text-center text-uppercase p-1 pl-2">
-						Departure Time</div>
-					<div class="col-4 border font-weight-bold text-center text-uppercase p-1 pl-2">
-						Permitted Stay Duration</div>
-				</div>
-				<!-- Time Details row -->
-				<div class="row">
-					<div class="col-4 border text-capitalize p-1 pl-5">
+					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">
 						${visitor.visitDate} ${visitor.visitTime}</div>
-					<div class="col-4 border text-capitalize p-1 pl-5">
-						${visitor.departureDate} ${visitor.departureTime}</div>
-					<div class="col-4 border text-capitalize p-1 pl-5">
-						${visitor.stayDuration}</div>
 				</div>
-				<div class="row mt-3">
-				<button id="printBtn" class="btn btn-block btn-sm btn-secondary">Print & Save</button>
+				
+				<!-- Display Image and Time -->
+				<div class="row">
+					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2 ">
+						Person Image </div>
+					<div class="col-md-4 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
+						<img 
+							src="${pageContext.request.contextPath}/static_resource/images/${visitor.imagePath}" 
+							width=100
+							height=100 />
+					</div>
+					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2 ">
+						Id Image </div>
+					<div class="col-md-4 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
+						<img 
+							src="${pageContext.request.contextPath}/static_resource/images/${visitor.idImagePath}" 
+							width=100
+							height=100 />
+					</div>
+					</div>
+				</div>
+				<div class="row border mt-3">
+				<sf:form action="save" modelAttribute="visitor" method = "Post" class="col m-md-auto m-sm-left">
+					<input type="submit" class="btn btn-block btn-sm btn-secondary w-50 text-center m-sm-auto" value="Print & Save"/>
+				</sf:form>
 				</div>
 			</div>
-		</div>
+			<div>
+			</div>
 	<script type="text/javascript">
 	//IEEF will register a button event handler.
 		(function (){
