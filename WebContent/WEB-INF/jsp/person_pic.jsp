@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Click a Pic</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
@@ -37,7 +38,7 @@
 	<!-- for video -->
 	<div class="p-2">
 	<h5 class="text-muted">Camera Image</h5>
-    <video id="video" width="128" height="160" autoplay></video>
+    <video id="video" width="240" height="180"  autoplay></video>
     <!-- for capturing image -->
     <div class="text-left">
     <button id="snap" class="btn btn-sm btn-secondary w-25">Snap Shot</button>
@@ -47,7 +48,7 @@
     <!-- to display image -->
     <div class="p-2">
     <h5 class="text-muted">Captured Image</h5>
-    <canvas id="canvas" width="128" height="160"></canvas>
+    <canvas id="canvas" width=video.videoWidth height=video.videoHeight></canvas>
     <!-- Form to add person or id image details in model attribute -->
     <sf:form method="post" action="<%=actionPage %>" modelAttribute = "visitor" class="text-left">
 		<sf:input id="image" type="hidden" 
@@ -64,21 +65,34 @@
 	<script>
 		// SET VIDEO STREAM
 		var video = document.getElementById("video");
-		var canva = document.getElementById("canvas");
+		var canvas = document.getElementById("canvas");
 		var context = canvas.getContext("2d");
+		var height, width;
+		// set height and width of canvas
 		
-		// For testing
-			context.arc(100,100,50,0,2*Math.PI);
-			context.lineWidth = 5;
-			context.fillStyle = '#EE111';
-			context.fill();
-			context.strokeStyle = '#CC0000';
-			context.stroke();
+		canvas.addEventListener("load",
+			function(){
+				originalHeight = video.videoHeight;
+				originalWidth = video.videoWidth;
+				height = originalHeight/ 60;
+				width = originWidth/60;
+				if(height === 3){
+					height = 180;
+					width = 240;
+				}
+				else{
+					height = 240;
+					width = 180
+				}
+			}
+		)
 			
 		// Capture image and draw on canvas on button click.
 		document.getElementById('snap').addEventListener("click",
 			function(){
-				//context.drawImage(video,0,0,320,240);
+				alert(video.videoWidth+","+video.videoHeight);
+				//alert(video.videoHeight);
+				context.drawImage(video,0,0,width,height);
 				var imageUrl = canvas.toDataURL();
 				console.log(imageUrl);
 				document.getElementById('image').value = imageUrl;
@@ -86,15 +100,16 @@
 		);
 		(
 			function(){
-				if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
-					navigator.mediaDevices.getUserMedia("video:true").then(
+				//alert('hello');
+				if(navigator.mediaDevices.getUserMedia){
+					navigator.mediaDevices.getUserMedia({video:true}).then(
 						function(stream){
 							video.src = window.URL.createObjectURL(stream);
 							video.play();
 						}		
-					)
-				}
-			}()	
+					);
+			}
+		}()	
 		);
 	</script>
 	<script type="text/javascript"

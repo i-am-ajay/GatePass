@@ -2,12 +2,17 @@ package com.sgrh.bean;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,6 +41,12 @@ public class Visitor {
 	@Column(name="company")
 	private String company;
 	
+	/*
+	@ElementCollection
+	@CollectionTable(name="visitorEntry", joinColumns = @JoinColumn(name="visitor_id"))
+	@Embedded
+	private List<VisitorEntry> visitorEntryList;
+	*/
 	@Column(name="visit_department")
 	@NotNull(message="Cannot be blank")
 	@Size(min=1, message="Cannot be blank")
@@ -105,6 +116,7 @@ public class Visitor {
 	public void setCompany(String company) {
 		this.company = company;
 	}
+
 	// visit reason
 	public String getVisitReason() {
 		return visitReason;
@@ -119,6 +131,15 @@ public class Visitor {
 	public void setVisitDate(LocalDate visitDate) {
 		this.visitDate = visitDate;
 	}
+	
+	public LocalTime getVisitTime() {
+		return visitTime;
+	}
+	public void setVisitTime(LocalTime visitTime) {
+		this.visitTime = visitTime;
+	}
+	
+	
 	
 	/*// departure date
 	public LocalDate getDepartureDate() {
@@ -141,12 +162,7 @@ public class Visitor {
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	public LocalTime getVisitTime() {
-		return visitTime;
-	}
-	public void setVisitTime(LocalTime visitTime) {
-		this.visitTime = visitTime;
-	}
+	
 	/*public LocalTime getDepartureTime() {
 		return departureTime;
 	}
@@ -161,6 +177,15 @@ public class Visitor {
 	public void setIdImagePath(String idImagePath) {
 		this.idImagePath = idImagePath;
 	}
-	
+
+	/*
+	public List<VisitorEntry> getVisitorEntryList() {
+		return visitorEntryList;
+	}
+
+	public void setVisitorEntryList(List<VisitorEntry> visitorEntryList) {
+		this.visitorEntryList = visitorEntryList;
+	}
+	*/
 	
 }

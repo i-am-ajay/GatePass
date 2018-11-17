@@ -62,11 +62,11 @@ public class GatePassMainController {
 	}
 	
 	@RequestMapping("save")
-	public String saveForm(@RequestParam("person_img") String personImg, @RequestParam("id_img") String idImg, Model model, 
-			@Valid @ModelAttribute("visitor") Visitor visitor, BindingResult result, HttpSession session) {
-		System.out.println(personImg);
+	public String saveForm( Model model, @Valid @ModelAttribute("visitor") Visitor visitor, 
+			BindingResult result, HttpSession session) {
 		Visitor v = (Visitor)session.getAttribute("visitor");
 		System.out.println(v.getName());
+		visitorDao.saveVisitor(visitor);
 		return "save_visitor_data";
 	}
 	
@@ -88,8 +88,8 @@ public class GatePassMainController {
 		//Visitor visitor1 = visitorDao.getVisitor(id);
 		Visitor vis = (Visitor)session.getAttribute("visitor");
 		String imgName = vis.getName() + vis.getContact();
-		String personImgName = imgName+"_person.png";
-		String idImage = imgName+"_id.png";
+		String personImgName = imgName+"_person.jpeg";
+		String idImage = imgName+"_id.jpeg";
 		String realPath = request.getServletContext().getRealPath(File.separator);
 		// Save person image
 		Base64ToImage.getImageFromBase64(vis.getImagePath(), personImgName, realPath);

@@ -117,12 +117,6 @@
 		</div>
 				
 		</div>
-		<!-- Response Check -->
-		<div>
-		<c:forEach var="item" items="${header}">
-			<c:out value="${item.key} -> ${item.value}" />
-		</c:forEach>
-		</div>
 		
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static_resource/js/jquery.min.js"></script>
