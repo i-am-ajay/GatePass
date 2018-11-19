@@ -21,10 +21,12 @@
 	<%!
 		private String actionPage = null;
 		private String pathVariable = null;
+		private String title = null;
 	%>
 	<%
 	pathVariable = request.getParameter("img").equals("person_img") ? "imagePath" : "idImagePath";
 	actionPage = request.getParameter("img").equals("person_img") ? "id_image_capture" : "entry_page";
+	title = pathVariable.equals("imagePath") ? "Click Person Image" : "Click Id Image"; 
 	out.println(pathVariable);
 	out.println(actionPage);
 	%>
@@ -34,10 +36,10 @@
 		<div class="mt-3">&nbsp;</div>
 		<div class="mt-2">
 	<!-- Show a Video Screen from Camera -->
-	<h2 class="display-4"> Take A pic</h2>
+	<!-- <h2 class="display-4"> Take A pic</h2> -->
 	<!-- for video -->
 	<div class="p-2">
-	<h5 class="text-muted">Camera Image</h5>
+	<h5 class="text-muted"><%=title %></h5>
     <video id="video" width="240" height="180"  autoplay></video>
     <!-- for capturing image -->
     <div class="text-left">
@@ -67,32 +69,40 @@
 		var video = document.getElementById("video");
 		var canvas = document.getElementById("canvas");
 		var context = canvas.getContext("2d");
-		var height, width;
+		var height, width, originalHeight, originalWidth;
 		// set height and width of canvas
 		
 		canvas.addEventListener("load",
 			function(){
 				originalHeight = video.videoHeight;
 				originalWidth = video.videoWidth;
-				height = originalHeight/ 60;
-				width = originWidth/60;
-				if(height === 3){
+				alert(hello);
+				if(originalHeight > originalWidth){
+					height = 240;
+					width = 180;
+					alert(height);
+				}
+				else{
 					height = 180;
 					width = 240;
 				}
-				else{
-					height = 240;
-					width = 180
-				}
 			}
-		)
+		);
 			
 		// Capture image and draw on canvas on button click.
 		document.getElementById('snap').addEventListener("click",
 			function(){
-				alert(video.videoWidth+","+video.videoHeight);
+				if(video.videoHeight > video.videoWidth){
+					canvas.height = 240;
+					canvas.width = 180;
+				}
+				else{
+					canvas.height=180;
+					canvas.width=240;
+				}
+				alert(canvas.height+","+canvas.width);
 				//alert(video.videoHeight);
-				context.drawImage(video,0,0,width,height);
+				context.drawImage(video,0,0,canvas.width,canvas.height);
 				var imageUrl = canvas.toDataURL();
 				console.log(imageUrl);
 				document.getElementById('image').value = imageUrl;
