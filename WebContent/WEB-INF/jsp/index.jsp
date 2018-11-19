@@ -90,8 +90,8 @@
 							id="company_id" name="company" path="company"
 							placeholder="Company Name" />
 					</div>
-					
-					<!-- Visit Reason -->
+					<!--  -->
+					<!-- Visit Reason
 					<div class="form-group row">
 						<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
 							Department</label>
@@ -101,7 +101,7 @@
 						<sf:errors path="visitReason" element="div"
 							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
 					</div>
-					
+					-->
 					<!-- Send to Photo Click page -->
 					
 					
@@ -109,7 +109,7 @@
 						<!-- Submit Button -->
 						<div class="col-8 col-md-8 m-md-auto m-sm-left">
 						<sf:button id="trigger-upload" type="submit"
-							class="btn btn-sm btn-block btn-secondary">Generate</sf:button>
+							class="btn btn-sm btn-block btn-secondary">Click Pic</sf:button>
 						</div>
 					</div>
 				</sf:form>

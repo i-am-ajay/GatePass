@@ -90,9 +90,6 @@
                     <!--  <a class="btn btn-link" href="/password/reset">Forgot Your Password?</a>-->
                 </div>
             </div>
-            <%
-            	out.println(Paths.get(request.getRequestURI()).getFileName());
-            %>
         </form>
     </div>
     <script type="text/javascript"

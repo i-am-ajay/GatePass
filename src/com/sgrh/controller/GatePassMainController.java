@@ -23,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -169,6 +170,11 @@ public class GatePassMainController {
 	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
 		model.addAttribute("visitor",visitor);
 		return "entry_page";
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public String exceptionThrown() {
+		return "redirect:index";
 	}
 	
 	@RequestMapping("process_login")

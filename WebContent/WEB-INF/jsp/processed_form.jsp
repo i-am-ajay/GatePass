@@ -45,50 +45,50 @@
 			</div>
 				<!-- Name & Contact -->
 				<div class="row">
-					<div class="col-md-3 col-sm-6 border font-weight-bold text-uppercase p-2 pl-2">
+					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-2 pl-2">
 						Name</div>
-					<div class="col-md-3 col-sm-6 border text-capitalize p-1 pl-5">
+					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 						${visitor.name}</div>
 					<div
-						class="div-2 col-md-3 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">Contact</div>
-					<div class="col-md-3 col-sm-6 border text-capitalize p-1 pl-5">${visitor.contact}</div>
+						class="div-2 col-md-3 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">Contact</div>
+					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">${visitor.contact}</div>
 				</div>
 	
 				<!--  Company Details -->
 				<div class="row">
-					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
+					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Company</div>
-					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">
+					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 						${visitor.company}</div>
 					<div
-						class="div-2 col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">Address</div>
-					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">${visitor.address}</div>
+						class="div-2 col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">Address</div>
+					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">${visitor.address}</div>
 				</div>
 				<!-- Visit Reason -->
 				<div class="row">
-					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
+					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Visit Reason</div>
-					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">
+					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 						${visitor.visitReason}</div>
-					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
+					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Visit Time</div>
-					<div class="col-md-4 col-sm-6 border text-capitalize p-1 pl-5">
+					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 						${visitor.visitDate} ${visitor.visitTime}</div>
 				</div>
 				
 				<!-- Display Image and Time -->
 				<div class="row">
-					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2 ">
+					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2 ">
 						Person Image </div>
-					<div class="col-md-4 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
+					<div class="col-md-4 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 						<img 
 							src="${pageContext.request.contextPath}/static_resource/images/${visitor.imagePath}" 
 							width=100
 							height=100 />
 					</div>
-					<div class="col-md-2 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2 ">
+					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2 ">
 						Id Image </div>
-					<div class="col-md-4 col-sm-6 border font-weight-bold text-uppercase p-1 pl-2">
+					<div class="col-md-4 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 						<img 
 							src="${pageContext.request.contextPath}/static_resource/images/${visitor.idImagePath}" 
 							width=100
