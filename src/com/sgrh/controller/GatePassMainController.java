@@ -75,12 +75,12 @@ public class GatePassMainController {
 	}
 	
 	@RequestMapping("search")
-	public String searchForm(Model model) {
+	public String searchForm() {
 		return "search_page";
 	}
 	
-	@RequestMapping("processed_search")
-	public String processSearch(Model model, @RequestParam("name") String name,
+	@RequestMapping("/search_result")
+	public String processSearch( @RequestParam("name") String name,
 				@RequestParam("contact") String contact,
 				@RequestParam("company") String company,
 				@RequestParam("date") LocalDateTime date,
@@ -106,7 +106,7 @@ public class GatePassMainController {
 		String joiner = Joiner.on("AND ").skipNulls().join(Strings.emptyToNull(name),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(sqlDate));
 		System.out.println(joiner);
 		System.out.println("Hello");
-		return "search_page";
+		return "test_db";
 	}
 	
 	
@@ -205,11 +205,12 @@ public class GatePassMainController {
 		return "entry_page";
 	}
 	
+	/*
 	@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
-		return "redirect:index";
+		return "redirect:/";
 	}
-	
+	*/
 	@RequestMapping("process_login")
 	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath) {
 		User user = visitorDao.getUser(username);

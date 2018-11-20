@@ -33,7 +33,7 @@
 	<%@ include file="header.jsp"%>
 		<div class="mt-3">&nbsp;</div>
 		<div class="mt-4">
-		<form class="form-group mb-4" action="processed_search">
+		<sf:form class="form-group mb-4" action="search_result" method="POST">
 		<div class="row">
 			<div class="col-6 form-group">
 				<label for="name_id" class="font-weight-bold">Name</label>
@@ -65,7 +65,7 @@
 			</div>
 		</div>
 		</div>
-		</form>
+		</sf:form>
 		<!-- Result Table -->
 		<table class="table table-sm table-striped">
 		  <thead>

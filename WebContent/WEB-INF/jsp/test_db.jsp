@@ -9,6 +9,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<sql:query var="query" dataSource="jdbc/GatePass">SELECT * FROM test</sql:query>
+	hello.
 </body>
 </html>
