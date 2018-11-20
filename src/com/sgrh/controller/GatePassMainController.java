@@ -79,7 +79,7 @@ public class GatePassMainController {
 		return "search_page";
 	}
 	
-	@RequestMapping("/search_result")
+	@RequestMapping(value="/search_result", method=RequestMethod.POST)
 	public String processSearch( @RequestParam("name") String name,
 				@RequestParam("contact") String contact,
 				@RequestParam("company") String company,
