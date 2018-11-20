@@ -32,24 +32,64 @@
 	<div class="container">
 	<%@ include file="header.jsp"%>
 		<div class="mt-3">&nbsp;</div>
-		<div class="mt-5">
-		<form class="form-group">
+		<div class="mt-4">
+		<form class="form-group mb-4" action="processed_search">
 		<div class="row">
-			<div class="col-4 form-group">
+			<div class="col-6 form-group">
 				<label for="name_id" class="font-weight-bold">Name</label>
 				<input type="text" name="name" id="name_id" class="form-control form-control-sm" />
 			</div>
-			<div class="col-4 form-group">
-					<label for="department_id" class="font-weight-bold">Department</label>
-					<input type="text" class="form-control form-control-sm" id="department_id" name="department" /></div>
+			<div class="col-6 form-group">
+					<label for="department_id" class="font-weight-bold">Contact</label>
+					<input type="text" class="form-control form-control-sm" id="contact_id" name="contact" /></div>
+		</div>
+		<div class="row">
+			<div class="col-6 form-group">
+				<label for="company_id" class="font-weight-bold">Company</label>
+				<input type="text" name="company" id="company_id" class="form-control form-control-sm" />
 			</div>
-			<div class="col-4">
-				<label for="department_id" class="font-weight-bold">Department</label>
-				<input type="text" class="form-control form-control-sm" id="department_id" name="department" /></div>
-				</div>
+			<div class="col-6 form-group">
+				<label for="date_id" class="font-weight-bold">Date</label>
+				<input type="date" name="date" id="date_id" class= "form-control form-control-sm" />
 			</div>
 		</div>
+		<div>
+		<div class="row">
+			<div class="col form-group">
+				<label for="department_id" class="font-weight-bold">Visiting Department</label>
+				<input type="text" class="form-control form-control-sm" id="department_id" name="department" /></div>
+		</div>
+		<div class="row ">
+			<div class="col">
+				<input type="submit" class="btn btn-sm btn-block btn-secondary w-75 m-auto" value="Search" />
+			</div>
+		</div>
+		</div>
 		</form>
+		<!-- Result Table -->
+		<table class="table table-sm table-striped">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Name</th>
+		      <th scope="col">Address</th>
+		      <th scope="col">Contact</th>
+		      <th scope="col">Company</th>
+		      <th scope="col">Visiting Department</th>
+		      <th scope="col">Visit Time</th>
+		      <th scope="col">Person Image</th>
+		      <th scope="col">Id Image</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">1</th>
+		      <td>Mark</td>
+		      <td>Otto</td>
+		      <td>@mdo</td>
+		    </tr>
+		  </tbody>
+		</table>
 	</div>
 	</div>
 	<script type="text/javascript"

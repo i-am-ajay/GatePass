@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Enumeration;
 
@@ -35,6 +36,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.sgrh.bean.User;
 import com.sgrh.bean.Visitor;
 import com.sgrh.dao.VisitorDAOImp;
@@ -73,6 +76,36 @@ public class GatePassMainController {
 	
 	@RequestMapping("search")
 	public String searchForm(Model model) {
+		return "search_page";
+	}
+	
+	@RequestMapping("processed_search")
+	public String processSearch(Model model, @RequestParam("name") String name,
+				@RequestParam("contact") String contact,
+				@RequestParam("company") String company,
+				@RequestParam("date") LocalDateTime date,
+				@RequestParam("department") String department
+			) {
+		
+		if(!Strings.isNullOrEmpty(name)) {
+			name= "name='".concat(name).concat("'");
+		}
+		if(!Strings.isNullOrEmpty(contact)) {
+			contact= "Contact = '".concat(contact).concat("'");
+		}
+		if(!Strings.isNullOrEmpty(company)) {
+			company = "Company = '".concat(company).concat("'");
+		}
+		if(!Strings.isNullOrEmpty(department)) {
+			department = "Department ='".concat(department).concat("'");
+		}
+		String sqlDate = null;
+		if(date != null){
+			sqlDate = "Date = '".concat(date.toString()).concat("'");
+		}
+		String joiner = Joiner.on("AND ").skipNulls().join(Strings.emptyToNull(name),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(sqlDate));
+		System.out.println(joiner);
+		System.out.println("Hello");
 		return "search_page";
 	}
 	

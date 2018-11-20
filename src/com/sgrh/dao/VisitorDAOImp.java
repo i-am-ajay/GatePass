@@ -61,4 +61,17 @@ public class VisitorDAOImp {
 		}
 		return session.get(User.class, username);
 	}
+	
+	@Transactional
+	public void getSearchResult() {
+		Session session = null;
+		try {
+			SessionFactory sFactory = factory.getObject();
+			session = sFactory.openSession();
+			
+		}
+		catch(Exception ex) {
+			
+		}
+	}
 }
