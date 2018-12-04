@@ -1,7 +1,10 @@
 package com.sgrh.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,15 +66,25 @@ public class VisitorDAOImp {
 	}
 	
 	@Transactional
-	public void getSearchResult() {
+	public List<Visitor> getSearchResult(String queryParam) {
 		Session session = null;
+		List<Visitor> visitorList = null;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
-			
+			String query = "FROM Visitor WHERE ";
+			query = query.concat(queryParam);
+			System.out.println(query);
+			Query<Visitor> executionQuery = session.createQuery(query, Visitor.class);
+			visitorList = executionQuery.getResultList();
+			for(Visitor visitor : visitorList) {
+				System.out.println(visitor.getName());
+			}
 		}
 		catch(Exception ex) {
-			
+			ex.printStackTrace();
 		}
+		return visitorList;
 	}
+	
 }

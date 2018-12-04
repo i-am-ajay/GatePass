@@ -77,10 +77,6 @@ public class Visitor {
 	@Column(name="id_image_path")
 	private String idImagePath;
 	
-	public Visitor() {
-		System.out.println("Visitor Called.");
-	}
-	
 	// Id field
 	public int getId() {
 		return id;

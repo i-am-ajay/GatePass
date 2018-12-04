@@ -100,7 +100,7 @@
 					canvas.height=180;
 					canvas.width=240;
 				}
-				alert(canvas.height+","+canvas.width);
+				//alert(canvas.height+","+canvas.width);
 				//alert(video.videoHeight);
 				context.drawImage(video,0,0,canvas.width,canvas.height);
 				var imageUrl = canvas.toDataURL();

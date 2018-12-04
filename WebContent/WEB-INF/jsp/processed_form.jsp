@@ -50,7 +50,7 @@
 					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 						${visitor.name}</div>
 					<div
-						class="div-2 col-md-3 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">Contact</div>
+						class="div-2 col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">Contact</div>
 					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">${visitor.contact}</div>
 				</div>
 	

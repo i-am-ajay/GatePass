@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +41,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.sgrh.bean.User;
 import com.sgrh.bean.Visitor;
+import com.sgrh.dao.DepartmentDAOImp;
 import com.sgrh.dao.VisitorDAOImp;
 import com.sgrh.fineupload.io.StorageService;
 import com.sgrh.fineupload.model.UploadRequest;
@@ -53,7 +55,9 @@ public class GatePassMainController {
 	@Autowired
 	private StorageService storageService;
 	@Autowired 
-	VisitorDAOImp visitorDao;
+	private VisitorDAOImp visitorDao;
+	@Autowired
+	private DepartmentDAOImp departmentDao;
 	
 	
 	@RequestMapping(value="/")
@@ -69,26 +73,36 @@ public class GatePassMainController {
 	public String saveForm( Model model, @Valid @ModelAttribute("visitor") Visitor visitor, 
 			BindingResult result, HttpSession session) {
 		Visitor v = (Visitor)session.getAttribute("visitor");
-		System.out.println(v.getName());
 		visitorDao.saveVisitor(visitor);
-		return "save_visitor_data";
+		return "redirect://";
 	}
 	
 	@RequestMapping("search")
-	public String searchForm() {
+	public String searchForm(Model model) {
+		model.addAttribute("deptList",departmentDao.getDeptList());
 		return "search_page";
 	}
 	
-	@RequestMapping(value="/search_result", method=RequestMethod.POST)
-	public String processSearch( @RequestParam("name") String name,
-				@RequestParam("contact") String contact,
-				@RequestParam("company") String company,
-				@RequestParam("date") LocalDateTime date,
-				@RequestParam("department") String department
-			) {
-		
+	/*
+	@RequestMapping(value="search_result")
+	public String getSearchResult(){
+		return "test_db";
+	}*/
+	
+	@RequestMapping("search_result")
+	public String processSearch(
+			@RequestParam("name") String name,
+			@RequestParam("contact") String contact,
+			@RequestParam("company") String company,
+			@RequestParam("department") String department,
+			@RequestParam("to_date") String toDate,
+			@RequestParam("from_date") String fromDate,
+			Model model
+			){
+		System.out.println("Hello from processSearch method GatePassMainController.class");
+		model.addAttribute("deptList",departmentDao.getDeptList());
 		if(!Strings.isNullOrEmpty(name)) {
-			name= "name='".concat(name).concat("'");
+			name= "name like '%".concat(name).concat("%'");
 		}
 		if(!Strings.isNullOrEmpty(contact)) {
 			contact= "Contact = '".concat(contact).concat("'");
@@ -97,18 +111,19 @@ public class GatePassMainController {
 			company = "Company = '".concat(company).concat("'");
 		}
 		if(!Strings.isNullOrEmpty(department)) {
-			department = "Department ='".concat(department).concat("'");
+			department = "visitReason ='".concat(department).concat("'");
 		}
-		String sqlDate = null;
-		if(date != null){
-			sqlDate = "Date = '".concat(date.toString()).concat("'");
+		if(!Strings.isNullOrEmpty(fromDate)){
+			fromDate = "visitDate >= '".concat(fromDate).concat("'");
 		}
-		String joiner = Joiner.on("AND ").skipNulls().join(Strings.emptyToNull(name),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(sqlDate));
+		if(!Strings.isNullOrEmpty(toDate)){
+			toDate = "visitDate <= '".concat(toDate).concat("'");
+		}
+		String joiner = Joiner.on(" AND ").skipNulls().join("1=1",Strings.emptyToNull(name),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(fromDate),Strings.emptyToNull(toDate));
 		System.out.println(joiner);
-		System.out.println("Hello");
-		return "test_db";
+		model.addAttribute("visitorList", visitorDao.getSearchResult(joiner));
+		return "search_page";
 	}
-	
 	
 	@RequestMapping("printing")
 	public String printBarcode(Model model, @ModelAttribute("visitor") Visitor visitor) {
@@ -202,15 +217,14 @@ public class GatePassMainController {
 	@RequestMapping("entry_page")
 	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
 		model.addAttribute("visitor",visitor);
+		model.addAttribute("deptList",departmentDao.getDeptList());
 		return "entry_page";
 	}
 	
-	/*
 	@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
-		return "redirect:/";
+		return "redirect://";
 	}
-	*/
 	@RequestMapping("process_login")
 	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath) {
 		User user = visitorDao.getUser(username);

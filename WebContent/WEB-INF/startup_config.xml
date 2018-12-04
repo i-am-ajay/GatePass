@@ -11,6 +11,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
+	<import resource="classpath:/com/sgrh/config/daoConfig.xml" />
 	<!-- A view resolver for controller to view mapping -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
 		<property name="prefix" value="/WEB-INF/jsp/" />

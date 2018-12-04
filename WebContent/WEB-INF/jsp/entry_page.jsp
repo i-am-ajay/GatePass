@@ -57,11 +57,16 @@
 				<div class="form-group row">
 					<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
 						Department</label>
-					<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
+					<sf:input list="deptList" class="form-control form-control-sm col-6 col-md-8"
 						id="visitR_id" name="Visit" path="visitReason"
 						placeholder="Visit Reason" />
 					<sf:errors path="visitReason" element="div"
 						cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
+					<datalist id="deptList">
+						<c:forEach var="item" items="${deptList}">
+							<option><c:out value="${item}" /></option>
+						</c:forEach>
+					</datalist>
 				</div>
 				
 
