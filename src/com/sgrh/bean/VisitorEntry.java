@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Embeddable
 public class VisitorEntry {
-	@Column(name="visitor_id")
+	@Column(name="V_ID")
 	private int vId;
 	
 	@Column(name="visit_date")

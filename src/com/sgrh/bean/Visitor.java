@@ -43,7 +43,7 @@ public class Visitor {
 	private String company;
 	
 	@ElementCollection
-	@CollectionTable(name="visitorEntry")
+	@CollectionTable(name="visitorEntry", joinColumns=@JoinColumn(name="V_ID"))
 	@Embedded
 	private List<VisitorEntry> visitorEntryList = new ArrayList<>();
 	

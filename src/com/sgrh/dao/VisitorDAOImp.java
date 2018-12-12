@@ -28,12 +28,14 @@ public class VisitorDAOImp {
 		boolean isSuccess = false;
 		try {
 			SessionFactory sFactory = factory.getObject();
-			Session session = sFactory.openSession();
+			Session session = sFactory.getCurrentSession();
 			try {
 				session.setHibernateFlushMode(FlushMode.MANUAL);
 				session.save(visitor);
-				System.out.println(visitor.getVisitorEntryList().size());
 				session.flush();
+			}
+			catch(Exception ex) {
+				ex.printStackTrace();
 			}
 			finally {
 				session.setHibernateFlushMode(FlushMode.AUTO);
