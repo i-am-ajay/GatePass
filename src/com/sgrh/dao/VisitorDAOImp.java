@@ -2,6 +2,7 @@ package com.sgrh.dao;
 
 import java.util.List;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -28,7 +29,16 @@ public class VisitorDAOImp {
 		try {
 			SessionFactory sFactory = factory.getObject();
 			Session session = sFactory.openSession();
-			session.save(visitor);
+			try {
+				session.setHibernateFlushMode(FlushMode.MANUAL);
+				session.save(visitor);
+				System.out.println(visitor.getVisitorEntryList().size());
+				session.flush();
+			}
+			finally {
+				session.setHibernateFlushMode(FlushMode.AUTO);
+			}
+			
 			isSuccess = true;
 		}
 		catch(Exception ex) {

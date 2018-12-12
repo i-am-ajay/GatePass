@@ -2,6 +2,7 @@ package com.sgrh.bean;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
@@ -41,12 +42,12 @@ public class Visitor {
 	@Column(name="company")
 	private String company;
 	
-	/*
 	@ElementCollection
-	@CollectionTable(name="visitorEntry", joinColumns = @JoinColumn(name="visitor_id"))
+	@CollectionTable(name="visitorEntry")
 	@Embedded
-	private List<VisitorEntry> visitorEntryList;
-	*/
+	private List<VisitorEntry> visitorEntryList = new ArrayList<>();
+	
+	/*
 	@Column(name="visit_department")
 	@NotNull(message="Cannot be blank")
 	@Size(min=1, message="Cannot be blank")
@@ -59,7 +60,7 @@ public class Visitor {
 	@Column(name="visit_time")
 	@DateTimeFormat(pattern="HH:mm")
 	private LocalTime visitTime;
-	
+	*/
 /*	@Column(name="departure_date")
 	@DateTimeFormat(iso=ISO.DATE)
 	private LocalDate departureDate;
@@ -113,6 +114,7 @@ public class Visitor {
 		this.company = company;
 	}
 
+	/*
 	// visit reason
 	public String getVisitReason() {
 		return visitReason;
@@ -134,7 +136,7 @@ public class Visitor {
 	public void setVisitTime(LocalTime visitTime) {
 		this.visitTime = visitTime;
 	}
-	
+	*/
 	
 	
 	/*// departure date
@@ -174,7 +176,6 @@ public class Visitor {
 		this.idImagePath = idImagePath;
 	}
 
-	/*
 	public List<VisitorEntry> getVisitorEntryList() {
 		return visitorEntryList;
 	}
@@ -182,6 +183,5 @@ public class Visitor {
 	public void setVisitorEntryList(List<VisitorEntry> visitorEntryList) {
 		this.visitorEntryList = visitorEntryList;
 	}
-	*/
 	
 }

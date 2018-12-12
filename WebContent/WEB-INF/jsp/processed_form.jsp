@@ -69,11 +69,11 @@
 					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Visit Reason</div>
 					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
-						${visitor.visitReason}</div>
+						${visitor_entry.visitReason}</div>
 					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 						Visit Time</div>
 					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
-						${visitor.visitDate} ${visitor.visitTime}</div>
+						${visitor_entry.visitDate} ${visitor_entry.visitTime}</div>
 				</div>
 				
 				<!-- Display Image and Time -->

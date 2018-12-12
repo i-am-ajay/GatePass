@@ -41,6 +41,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.sgrh.bean.User;
 import com.sgrh.bean.Visitor;
+import com.sgrh.bean.VisitorEntry;
 import com.sgrh.dao.DepartmentDAOImp;
 import com.sgrh.dao.VisitorDAOImp;
 import com.sgrh.fineupload.io.StorageService;
@@ -49,7 +50,7 @@ import com.sgrh.fineupload.model.UploadResponse;
 import com.sgrh.utility.Base64ToImage;
 
 @Controller
-@SessionAttributes("visitor")
+@SessionAttributes({"visitor","visitor_entry"})
 public class GatePassMainController {
 	
 	@Autowired
@@ -63,8 +64,10 @@ public class GatePassMainController {
 	@RequestMapping(value="/")
 	public String mainForm(final Model model) {
 		Visitor visitor = new Visitor();
-		visitor.setVisitDate(LocalDate.now());
-		visitor.setVisitTime(LocalTime.now());
+		/*VisitorEntry entry = new VisitorEntry();
+		entry.setVisitDate(LocalDate.now());
+		entry.setVisitTime(LocalTime.now());*/
+		//visitor.getVisitorEntryList().add(entry);
 		model.addAttribute("visitor",visitor);
 		return "index";
 	}
@@ -133,9 +136,10 @@ public class GatePassMainController {
 	
 	@RequestMapping("processed")
 	public String fileUploader(Model model, @ModelAttribute("visitor") final Visitor visitor, 
+			@ModelAttribute("visitor_entry") final VisitorEntry entry,
 			final Errors error /*@RequestParam("id") int id*/, HttpSession session, HttpServletRequest request) {
-		//Visitor visitor1 = visitorDao.getVisitor(id);
 		Visitor vis = (Visitor)session.getAttribute("visitor");
+		vis.getVisitorEntryList().add(entry);
 		String imgName = vis.getName() + vis.getContact();
 		String personImgName = imgName+"_person.jpeg";
 		String idImage = imgName+"_id.jpeg";
@@ -147,7 +151,10 @@ public class GatePassMainController {
 		Base64ToImage.getImageFromBase64(vis.getIdImagePath(), idImage, realPath);
 		visitor.setImagePath(personImgName);
 		visitor.setIdImagePath(idImage);
+		System.out.println("Processed Form"+visitor.getVisitorEntryList().get(0).getVisitReason());
+		System.out.println(entry.getVisitDate());
 		model.addAttribute("visitor",visitor);
+		model.addAttribute("visitor_entry",entry);
 		return "processed_form";
 	}
 	
@@ -217,6 +224,10 @@ public class GatePassMainController {
 	@RequestMapping("entry_page")
 	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
 		model.addAttribute("visitor",visitor);
+		VisitorEntry entry = new VisitorEntry();
+		entry.setVisitDate(LocalDate.now());
+		entry.setVisitTime(LocalTime.now());
+		model.addAttribute("visitor_entry",entry);
 		model.addAttribute("deptList",departmentDao.getDeptList());
 		return "entry_page";
 	}

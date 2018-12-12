@@ -12,10 +12,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Component;
 
-
+@Component
+@Embeddable
 public class VisitorEntry {
 	@Column(name="visitor_id")
-	private int id;
+	private int vId;
 	
 	@Column(name="visit_date")
 	@DateTimeFormat(iso=ISO.DATE)
@@ -54,14 +55,11 @@ public class VisitorEntry {
 		this.visitReason = visitReason;
 	}
 
-	public int getId() {
-		return id;
+	public int getVId() {
+		return vId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setVId(int id) {
+		this.vId = id;
 	}
-	
-	
-	
 }

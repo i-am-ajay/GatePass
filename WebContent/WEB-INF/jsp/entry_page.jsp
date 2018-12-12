@@ -52,7 +52,7 @@
 		<div class="mt-3">&nbsp;</div>
 		<div class="mt-5">
 			<!-- Visitor Form -->
-			<sf:form action="processed" modelAttribute="visitor">
+			<sf:form action="processed" modelAttribute="visitor_entry">
 				<!-- Visit Reason -->
 				<div class="form-group row">
 					<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
