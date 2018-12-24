@@ -12,12 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Component;
 
-@Component
 @Embeddable
 public class VisitorEntry {
-	@Column(name="V_ID")
-	private int vId;
-	
 	@Column(name="visit_date")
 	@DateTimeFormat(iso=ISO.DATE)
 	private LocalDate visitDate;
@@ -53,13 +49,5 @@ public class VisitorEntry {
 
 	public void setVisitReason(String visitReason) {
 		this.visitReason = visitReason;
-	}
-
-	public int getVId() {
-		return vId;
-	}
-
-	public void setVId(int id) {
-		this.vId = id;
 	}
 }

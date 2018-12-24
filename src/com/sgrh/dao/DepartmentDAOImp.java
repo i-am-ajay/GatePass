@@ -35,7 +35,6 @@ public class DepartmentDAOImp {
 		return deptList;
 	}
 	
-	
 	// set session factory
 	
 	// 

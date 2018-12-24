@@ -24,14 +24,14 @@ public class VisitorDAOImp {
 	}
 	
 	@Transactional
-	public boolean saveVisitor(Visitor visitor) {
+	public boolean saveVisitor(Visitor visitor, boolean oldVisitor) {
 		boolean isSuccess = false;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			Session session = sFactory.getCurrentSession();
 			try {
 				session.setHibernateFlushMode(FlushMode.MANUAL);
-				session.save(visitor);
+				session.saveOrUpdate(visitor);
 				session.flush();
 			}
 			catch(Exception ex) {
@@ -53,14 +53,20 @@ public class VisitorDAOImp {
 	@Transactional
 	public Visitor getVisitor(int id) {
 		Session session = null;
+		Visitor vis = null;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
+			vis = session.get(Visitor.class,id);
 		}
 		catch(Exception ex) {
 			System.out.println("Not able to get Object");
 		}
-		return session.get(Visitor.class,id);
+		finally {
+			session.close();
+		}
+		
+		return vis;
 	}
 	
 	@Transactional
@@ -84,7 +90,7 @@ public class VisitorDAOImp {
 		try {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
-			String query = "FROM Visitor WHERE ";
+			String query = "FROM Visitor v INNER JOIN v.visitorEntryList vList WHERE ";
 			query = query.concat(queryParam);
 			System.out.println(query);
 			Query<Visitor> executionQuery = session.createQuery(query, Visitor.class);
@@ -96,7 +102,30 @@ public class VisitorDAOImp {
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
+		finally {
+			session.close();
+		}
 		return visitorList;
 	}
 	
+	/*
+	@Transactional
+	public List<Visitor> getResult() {
+		Session session = null;
+		List<Visitor> visitorList = null;
+		try {
+			SessionFactory sFactory = factory.getObject();
+			session = sFactory.openSession();
+			String query = "FROM Visitor v INNER JOIN v.visitorEntryList vList";
+			Query<Visitor> executionQuery = session.createQuery(query, Visitor.class);
+			visitorList = executionQuery.getResultList();
+			for(Visitor visitor : visitorList) {
+				System.out.println(visitor.getName());
+			}
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return visitorList;
+	}*/
 }

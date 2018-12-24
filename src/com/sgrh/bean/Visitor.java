@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class Visitor {
 	@Column(name="company")
 	private String company;
 	
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="visitorEntry", joinColumns=@JoinColumn(name="V_ID"))
 	@Embedded
 	private List<VisitorEntry> visitorEntryList = new ArrayList<>();

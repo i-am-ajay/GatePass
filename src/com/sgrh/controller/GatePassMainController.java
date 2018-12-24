@@ -50,7 +50,7 @@ import com.sgrh.fineupload.model.UploadResponse;
 import com.sgrh.utility.Base64ToImage;
 
 @Controller
-@SessionAttributes({"visitor","visitor_entry"})
+@SessionAttributes({"visitor","visitor_entry","old_visitor"})
 public class GatePassMainController {
 	
 	@Autowired
@@ -69,14 +69,16 @@ public class GatePassMainController {
 		entry.setVisitTime(LocalTime.now());*/
 		//visitor.getVisitorEntryList().add(entry);
 		model.addAttribute("visitor",visitor);
+		model.addAttribute("old_visitor",false);
 		return "index";
 	}
 	
 	@RequestMapping("save")
 	public String saveForm( Model model, @Valid @ModelAttribute("visitor") Visitor visitor, 
+			@ModelAttribute("old_visitor") boolean oldVisitor,
 			BindingResult result, HttpSession session) {
 		Visitor v = (Visitor)session.getAttribute("visitor");
-		visitorDao.saveVisitor(visitor);
+		visitorDao.saveVisitor(visitor,oldVisitor);
 		return "redirect://";
 	}
 	
@@ -114,13 +116,13 @@ public class GatePassMainController {
 			company = "Company = '".concat(company).concat("'");
 		}
 		if(!Strings.isNullOrEmpty(department)) {
-			department = "visitReason ='".concat(department).concat("'");
+			department = "vList.visitReason ='".concat(department).concat("'");
 		}
 		if(!Strings.isNullOrEmpty(fromDate)){
-			fromDate = "visitDate >= '".concat(fromDate).concat("'");
+			fromDate = "vList.visitDate >= '".concat(fromDate).concat("'");
 		}
 		if(!Strings.isNullOrEmpty(toDate)){
-			toDate = "visitDate <= '".concat(toDate).concat("'");
+			toDate = "vList.visitDate <= '".concat(toDate).concat("'");
 		}
 		String joiner = Joiner.on(" AND ").skipNulls().join("1=1",Strings.emptyToNull(name),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(fromDate),Strings.emptyToNull(toDate));
 		System.out.println(joiner);
@@ -136,21 +138,22 @@ public class GatePassMainController {
 	
 	@RequestMapping("processed")
 	public String fileUploader(Model model, @ModelAttribute("visitor") final Visitor visitor, 
-			@ModelAttribute("visitor_entry") final VisitorEntry entry,
+			@ModelAttribute("visitor_entry") final VisitorEntry entry, @ModelAttribute("old_visitor") final boolean oldVisitor,
 			final Errors error /*@RequestParam("id") int id*/, HttpSession session, HttpServletRequest request) {
 		Visitor vis = (Visitor)session.getAttribute("visitor");
 		vis.getVisitorEntryList().add(entry);
-		String imgName = vis.getName() + vis.getContact();
-		String personImgName = imgName+"_person.jpeg";
-		String idImage = imgName+"_id.jpeg";
-		String realPath = request.getServletContext().getRealPath(File.separator);
-		// Save person image
-		Base64ToImage.getImageFromBase64(vis.getImagePath(), personImgName, realPath);
-		
+		if(!oldVisitor) {
+			String imgName = vis.getName() + vis.getContact();
+			String personImgName = imgName+"_person.jpeg";
+			String idImage = imgName+"_id.jpeg";
+			String realPath = request.getServletContext().getRealPath(File.separator);
+			// Save person image
+			Base64ToImage.getImageFromBase64(vis.getImagePath(), personImgName, realPath);
 		// Save id image
-		Base64ToImage.getImageFromBase64(vis.getIdImagePath(), idImage, realPath);
-		visitor.setImagePath(personImgName);
-		visitor.setIdImagePath(idImage);
+			Base64ToImage.getImageFromBase64(vis.getIdImagePath(), idImage, realPath);
+			visitor.setImagePath(personImgName);
+			visitor.setIdImagePath(idImage);
+		}
 		System.out.println("Processed Form"+visitor.getVisitorEntryList().get(0).getVisitReason());
 		System.out.println(entry.getVisitDate());
 		model.addAttribute("visitor",visitor);
@@ -181,7 +184,7 @@ public class GatePassMainController {
 		        storageService.save(request,req);
 		        
 		        visitor.setImagePath(uuid.concat("/").concat(fileName));
-		        System.out.println(visitorDao.saveVisitor(visitor));
+		        System.out.println(visitorDao.saveVisitor(visitor,true));
 		        targetPath = "processed_form";
 			}
 			catch(Exception ex) {
@@ -232,10 +235,18 @@ public class GatePassMainController {
 		return "entry_page";
 	}
 	
+	@RequestMapping("get_visitor")
+	public String getVisitor(Model model,@RequestParam("id")int id) {
+		Visitor visitor = visitorDao.getVisitor(id);
+		model.addAttribute("visitor", visitor);
+		model.addAttribute("old_visitor",true);
+		return "redirect:entry_page";
+	}
+	/*
 	@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
 		return "redirect://";
-	}
+	}*/
 	@RequestMapping("process_login")
 	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath) {
 		User user = visitorDao.getUser(username);
