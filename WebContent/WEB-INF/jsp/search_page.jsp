@@ -79,7 +79,7 @@
 		</div>
 		</sf:form>
 		<!-- Result Table -->
-		<table class="table table-sm table-striped">
+		<table class="table table-sm table-striped m-auto">
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
