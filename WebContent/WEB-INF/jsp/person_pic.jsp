@@ -121,10 +121,13 @@
 			function(){
 				//alert('hello');
 				if(navigator.mediaDevices.getUserMedia){
-					navigator.mediaDevices.getUserMedia({video:true}).then(
+					navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: { exact: "environment" } } }).then(
 						function(stream){
-							video.src = window.URL.createObjectURL(stream);
-							video.play();
+							 video = document.querySelector('video');
+							 video.srcObject = stream;
+							 video.onloadedmetadata = function(e) {
+								    video.play();
+								  };
 						}		
 					);
 			}
