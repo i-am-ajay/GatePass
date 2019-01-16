@@ -38,7 +38,6 @@
 			return;
 		}
 		if(loggedIn == false){
-			System.out.println("False block called.");
 			response.sendRedirect("login_page?page=redirect:/");
 			return;
 		}
@@ -59,17 +58,17 @@
 						<!-- Full Name -->
 						<label for="full_name_id" class="control-label col-3 col-sm-2 font-weight-bold">Full
 							Name</label>
-						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
-							id="full_name_id" path="name" placeholder="Enter Name" />
+						<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
+							id="full_name_id" path="name" placeholder="Enter Name"/>
 						<sf:errors path="name" element="div"
-							cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
+							cssClass=" border broder-primary alert alert-danger w-25 mt-1 ml-auto mr-auto p-1 font-weight-light col-6 col-sm-8" />
 					</div>
 					
 				<div class="form-group row">
 					<!-- Address -->
 					<label for="address_id" class="control-label col-3 col-sm-2 font-weight-bold">
 						Address</label>
-					<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
+					<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
 						id="address_id" name="address" path="address"
 						placeholder="Address" />
 				</div>
@@ -77,9 +76,11 @@
 				<div class="form-group row">
 					<!-- Contact -->
 					<label for="contact_id" class="control-label col-3 col-sm-2 font-weight-bold">Contact</label>
-					<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
+					<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
 							id="contact_id" name="contact" path="contact"
-							placeholder="#Contact" />
+							placeholder="#Contact"/>
+					<sf:errors path="name" element="div"
+							cssClass="alert alert-danger w-25 mt-1 ml-auto mr-auto p-1 font-weight-light col-6 col-sm-8" />
 					</div>
 
 					<!-- Company Details -->

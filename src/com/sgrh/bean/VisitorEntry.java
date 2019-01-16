@@ -8,6 +8,7 @@ import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.ColumnTransformer;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,9 @@ public class VisitorEntry {
 	@NotNull(message="Cannot be blank")
 	@Size(min=1, message="Cannot be blank")
 	private String visitReason;
+	
+	@Column(name = "Pass_No", nullable = false)
+	private int gatePassNo;
 
 	public LocalDate getVisitDate() {
 		return visitDate;
@@ -49,5 +53,13 @@ public class VisitorEntry {
 
 	public void setVisitReason(String visitReason) {
 		this.visitReason = visitReason;
+	}
+
+	public int getGatePassNo() {
+		return gatePassNo;
+	}
+
+	public void setGatePassNo(int passNo) {
+		this.gatePassNo = passNo;
 	}
 }

@@ -21,6 +21,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name="Visitor")
@@ -37,6 +38,8 @@ public class Visitor {
 	@Column(name="address")
 	private String address;
 	
+	@NotNull(message="Contact cannot be Null.")
+	@Size(min=1, message="Is required")
 	@Column(name="contact")
 	private String contact;
 	

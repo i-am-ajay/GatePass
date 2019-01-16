@@ -57,7 +57,7 @@
 				<div class="form-group row">
 					<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
 						Department</label>
-					<sf:input list="deptList" class="form-control form-control-sm col-6 col-md-8"
+					<sf:input list="deptList" class="form-control form-control-sm col-6 col-sm-8"
 						id="visitR_id" name="Visit" path="visitReason"
 						placeholder="Visit Reason" />
 					<sf:errors path="visitReason" element="div"
@@ -74,7 +74,7 @@
 				<div class="form-group row">
 					<label for="vdate_id" class="control-label font-weight-bold col-3 col-sm-2">Visit
 						Date</label>
-					<sf:input type="date" class="form-control form-control-sm col-6 col-md-8"
+					<sf:input type="date" class="form-control form-control-sm col-6 col-sm-8"
 						path="visitDate" name="visitDate" placeholder="dd-mm-yyyy"
 						id="visitDateId" />
 				</div>
@@ -82,7 +82,7 @@
 				<div class="form-group row">
 					<label for="vtime_id" class="control-label font-weight-bold col-3 col-sm-2">Visit
 						Time</label>
-					<sf:input type="time" class="form-control form-control-sm col-6 col-md-8"
+					<sf:input type="time" class="form-control form-control-sm col-6 col-sm-8"
 						id="visitTimeId" path="visitTime" name="visitTime"
 						placeholder="hh:mm a" />
 				</div>

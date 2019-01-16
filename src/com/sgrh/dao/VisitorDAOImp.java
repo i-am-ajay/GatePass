@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -81,6 +82,29 @@ public class VisitorDAOImp {
 			System.out.println("Not a valid user");
 		}
 		return session.get(User.class, username);
+	}
+	
+	@Transactional
+	public int getLastPassNo() {
+		Session session = null;
+		int passNo = 0;
+		try {
+			SessionFactory sFactory = factory.getObject();
+			session = sFactory.openSession();
+			NativeQuery<Integer> query = session.createSQLQuery("SELECT MAX(Pass_no) FROM visitorentry");
+			List<Integer> list = query.getResultList();
+			passNo = list.get(0);
+		}
+		catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+		finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+		System.out.println();
+		return passNo; 
 	}
 	
 	@Transactional
