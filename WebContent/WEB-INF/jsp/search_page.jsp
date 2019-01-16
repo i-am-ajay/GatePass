@@ -45,7 +45,11 @@
 					<input type="text" class="form-control form-control-sm" id="contact_id" name="contact" /></div>
 		</div>
 		<div class="row">
-			<div class="col-6 form-group">
+		<div class="col-2 form-group">
+				<label for="gatepass_no" class="font-weight-bold">Pass No</label>
+				<input type="text" name="pass_no" id="gatepass_no" class="form-control form-control-sm" />
+			</div>
+			<div class="col-4 form-group">
 				<label for="company_id" class="font-weight-bold">Company</label>
 				<input type="text" name="company" id="company_id" class="form-control form-control-sm" />
 			</div>
@@ -87,6 +91,7 @@
 		      <th scope="col">Address</th>
 		      <th scope="col">Contact</th>
 		      <th scope="col">Company</th>
+		      <th scope="col">Pass No</th>
 		      <th scope="col">Visiting Department</th>
 		      <th scope="col">Visit Time</th>
 		      <th scope="col">Person Image</th>
@@ -102,6 +107,7 @@
 		    			<td><core:out value="${visitor.getAddress()}"/></td>
 		    			<td><core:out value="${visitor.getContact()}" /></td>
 		    			<td><core:out value="${visitor.getCompany()}" /></td>
+		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getGatePassNo()}" /></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitReason()}" /></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitDate()} ${visitor.getVisitorEntryList().get(0).getVisitTime()}" /></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" /></td>

@@ -48,6 +48,7 @@ import com.sgrh.fineupload.io.StorageService;
 import com.sgrh.fineupload.model.UploadRequest;
 import com.sgrh.fineupload.model.UploadResponse;
 import com.sgrh.utility.Base64ToImage;
+import com.sgrh.utility.SmsSender;
 
 @Controller
 @SessionAttributes({"visitor","visitor_entry","old_visitor"})
@@ -75,10 +76,15 @@ public class GatePassMainController {
 	
 	@RequestMapping("save")
 	public String saveForm( Model model, @Valid @ModelAttribute("visitor") Visitor visitor, 
-			@ModelAttribute("old_visitor") boolean oldVisitor,
+			@ModelAttribute("old_visitor") boolean oldVisitor, @ModelAttribute("visitor_entry") VisitorEntry en,
 			BindingResult result, HttpSession session) {
 		Visitor v = (Visitor)session.getAttribute("visitor");
 		visitorDao.saveVisitor(visitor,oldVisitor);
+		String msg = "Welcome "+ visitor.getName() +" ! Your Gate Pass No : "+en.getGatePassNo()+". Issue Date : "+en.getVisitDate();
+		
+		
+		// Send GatePass sms to visitor
+		SmsSender.sendMsg(msg,v.getContact());
 		return "redirect://";
 	}
 	
@@ -102,6 +108,7 @@ public class GatePassMainController {
 			@RequestParam("department") String department,
 			@RequestParam("to_date") String toDate,
 			@RequestParam("from_date") String fromDate,
+			@RequestParam("pass_no") String passNo,
 			Model model
 			){
 		System.out.println("Hello from processSearch method GatePassMainController.class");
@@ -115,6 +122,9 @@ public class GatePassMainController {
 		if(!Strings.isNullOrEmpty(company)) {
 			company = "Company = '".concat(company).concat("'");
 		}
+		if(!Strings.isNullOrEmpty(passNo)) {
+			passNo = "vList.gatePassNo = ".concat(passNo);
+		}
 		if(!Strings.isNullOrEmpty(department)) {
 			department = "vList.visitReason ='".concat(department).concat("'");
 		}
@@ -124,7 +134,7 @@ public class GatePassMainController {
 		if(!Strings.isNullOrEmpty(toDate)){
 			toDate = "vList.visitDate <= '".concat(toDate).concat("'");
 		}
-		String joiner = Joiner.on(" AND ").skipNulls().join("1=1",Strings.emptyToNull(name),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(fromDate),Strings.emptyToNull(toDate));
+		String joiner = Joiner.on(" AND ").skipNulls().join("1=1",Strings.emptyToNull(name),Strings.emptyToNull(passNo),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(fromDate),Strings.emptyToNull(toDate));
 		System.out.println(joiner);
 		model.addAttribute("visitorList", visitorDao.getSearchResult(joiner));
 		return "search_page";
@@ -207,9 +217,15 @@ public class GatePassMainController {
 	
 	// page for user image
 	@RequestMapping("/image_capture")
-	public String captureImage(Model model,final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
+	public String captureImage(Model model,final @Valid @ModelAttribute("visitor") Visitor visitor, BindingResult result, final Errors error) {
+		System.out.println(result.hasErrors());
+		if(result.hasErrors()) {
+			return "index";
+		}
+		else {
 		model.addAttribute("visitor",visitor); 
 		return "person_pic";
+		}
 	}
 	
 	@RequestMapping("/id_image_capture")
@@ -230,6 +246,15 @@ public class GatePassMainController {
 		VisitorEntry entry = new VisitorEntry();
 		entry.setVisitDate(LocalDate.now());
 		entry.setVisitTime(LocalTime.now());
+		System.out.println("lksjflksdj"+visitorDao.getLastPassNo());
+		int gatePassNo = visitorDao.getLastPassNo();
+		if(gatePassNo > 0) {
+			gatePassNo += 1;
+		}
+		else {
+			gatePassNo = 1;
+		}
+		entry.setGatePassNo(gatePassNo);
 		model.addAttribute("visitor_entry",entry);
 		model.addAttribute("deptList",departmentDao.getDeptList());
 		return "entry_page";
@@ -242,11 +267,13 @@ public class GatePassMainController {
 		model.addAttribute("old_visitor",true);
 		return "redirect:entry_page";
 	}
+	
 	/*
 	@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
 		return "redirect://";
-	}*/
+	}
+	*/
 	@RequestMapping("process_login")
 	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath) {
 		User user = visitorDao.getUser(username);
