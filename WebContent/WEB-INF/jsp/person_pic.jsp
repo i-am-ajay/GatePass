@@ -38,7 +38,7 @@
 			<!-- for video -->
 			<div class="p-2">
 				<h5 class="text-muted"><%=title%></h5>
-				<video id="video" width="240" height="180" autoplay></video>
+				<video id="video" width="240" height="180" playsinline autoplay></video>
 				<!-- for capturing image -->
 				<div class="text-left">
 					<button id="snap" class="btn btn-sm btn-secondary w-25">Snap
@@ -65,7 +65,7 @@
 					<sf:input id="image" type="hidden" path="<%=pathVariable%>" />
 					<!-- Set parameter for the img parameter on the basis of which it will be decided what page will do. -->
 					<input type="hidden" name="img" value="id_image" />
-					<input type="submit" class="btn btn-sm btn-secondary w-25"
+					<input type="submit" id="submit_btn" disabled class="btn btn-sm btn-secondary w-25"
 						value="Next" />
 				</sf:form>
 			</div>
@@ -101,6 +101,7 @@
 		// Capture image and draw on canvas on button click.
 		document.getElementById('snap').addEventListener("click",
 			function(){
+				document.getElementById("submit_btn").disabled = false;
 				if(video.videoHeight > video.videoWidth){
 					canvas.height = 240;
 					canvas.width = 180;
@@ -130,10 +131,14 @@
 			}
 		}()	
 		);
+		'use strict';
 		// change camera
-		var videoElement = document.querySelector('video');
+		const videoElement = document.querySelector('video');
 		//var audioSelect = document.querySelector('select#audioSource');
-		var videoSelect = document.querySelector('select#videoSource');
+		const videoSelect = document.querySelector('select#videoSource');
+		const selectors = [videoSelect];
+		
+		/*
 		
 		navigator.mediaDevices.enumerateDevices()
 		  .then(gotDevices).then(getStream).catch(handleError);
@@ -146,11 +151,12 @@
 		    var deviceInfo = deviceInfos[i];
 		    var option = document.createElement('option');
 		    option.value = deviceInfo.deviceId;
-		    /*if (deviceInfo.kind === 'audioinput') {
-		      option.text = deviceInfo.label ||
-		        'microphone ' + (audioSelect.length + 1);
-		      audioSelect.appendChild(option);
-		    } else */
+		    				-- Comment from here
+						    if (deviceInfo.kind === 'audioinput') {
+						      option.text = deviceInfo.label ||
+						        'microphone ' + (audioSelect.length + 1);
+						      audioSelect.appendChild(option);
+						    } else -- Comment upto here
 		    if (deviceInfo.kind === 'videoinput') {
 		      option.text = deviceInfo.label || 'camera ' +
 		        (videoSelect.length + 1);
@@ -169,9 +175,10 @@
 		  }
 		
 		  var constraints = {
-		    /*audio: {
-		      deviceId: {exact: audioSelect.value}
-		    },*/
+				  			-- Comment from here
+						    /*audio: {
+						      deviceId: {exact: audioSelect.value}
+						    }, -- Comment upto here
 		    video: {
 		      deviceId: {exact: videoSelect.value}
 		    }
@@ -189,8 +196,73 @@
 		function handleError(error) {
 		  console.log('Error: ', error);
 		}
+		*/
 
+		// New Code
+		
+		function gotDevices(deviceInfos) {
+  // Handles being called several times to update labels. Preserve values.
+		  const values = selectors.map(select => select.value);
+		  selectors.forEach(select => {
+		    while (select.firstChild) {
+		      select.removeChild(select.firstChild);
+		    }
+		  });
+		  for (let i = 0; i !== deviceInfos.length; ++i) {
+		    const deviceInfo = deviceInfos[i];
+		    const option = document.createElement('option');
+		    option.value = deviceInfo.deviceId;
+		   if (deviceInfo.kind === 'videoinput') {
+		      option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
+		      videoSelect.appendChild(option);
+		    } else {
+		      console.log('Some other kind of source/device: ', deviceInfo);
+		    }
+		  }
+		  selectors.forEach((select, selectorIndex) => {
+		    if (Array.prototype.slice.call(select.childNodes).some(n => n.value === values[selectorIndex])) {
+		      select.value = values[selectorIndex];
+		    }
+		  });
+		}
+		navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
+		
+		function gotStream(stream) {
+			  window.stream = stream; // make stream available to console
+			  videoElement.srcObject = stream;
+			  // Refresh button list in case labels have become available
+			  return navigator.mediaDevices.enumerateDevices();
+			}
 
+			function handleError(error) {
+			  console.log('navigator.getUserMedia error: ', error);
+			}
+
+			function start() {
+			  if (window.stream) {
+			    window.stream.getTracks().forEach(track => {
+			      track.stop();
+			    });
+			    videoElement.play();
+			  }
+			  //const audioSource = audioInputSelect.value;
+			  const videoSource = videoSelect.value;
+			  const constraints = {
+			    //audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+			    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+			  };
+			  navigator.mediaDevices.getUserMedia(constraints).then(gotStream).then(gotDevices).catch(handleError);
+			}
+
+			//audioInputSelect.onchange = start;
+			//audioOutputSelect.onchange = changeAudioDestination;
+
+			videoSelect.onchange = start;
+
+			start();
+
+		
+		
 	</script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static_resource/js/jquery.min.js"></script>

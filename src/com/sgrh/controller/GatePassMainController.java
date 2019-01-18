@@ -268,12 +268,12 @@ public class GatePassMainController {
 		return "redirect:entry_page";
 	}
 	
-	/*
+	
 	@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
 		return "redirect://";
 	}
-	*/
+	
 	@RequestMapping("process_login")
 	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath) {
 		User user = visitorDao.getUser(username);

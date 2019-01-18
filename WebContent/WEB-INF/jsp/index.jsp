@@ -79,9 +79,20 @@
 					<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
 							id="contact_id" name="contact" path="contact"
 							placeholder="#Contact"/>
-					<sf:errors path="name" element="div"
+					<sf:errors path="contact" element="div"
 							cssClass="alert alert-danger w-25 mt-1 ml-auto mr-auto p-1 font-weight-light col-6 col-sm-8" />
 					</div>
+					
+					<!-- Capture email id -->
+					<div class="form-group row">
+					<label for="email_id" class="control-label col-3 col-sm-2 font-weight-bold">Email</label>
+					<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
+							id="email_id" name="email" path="email"
+							placeholder="#Contact"/>
+					<sf:errors path="email" element="div"
+							cssClass="alert alert-danger w-25 mt-1 ml-auto mr-auto p-1 font-weight-light col-6 col-sm-8" />
+					</div>
+					
 
 					<!-- Company Details -->
 					<div class="form-group row">
@@ -91,15 +102,16 @@
 							id="company_id" name="company" path="company"
 							placeholder="Company Name" />
 					</div>
+					
 					<!-- Send to Photo Click page -->
-					
-					
 					<div class="form-groups row">
 						<!-- Submit Button -->
 						<div class="col-8 col-md-8 m-md-auto m-sm-left">
 						<sf:button id="trigger-upload" type="submit"
 							class="btn btn-sm btn-block btn-secondary">Click Pic</sf:button>
 						</div>
+					</div>
+					
 					</div>
 				</sf:form>
 		

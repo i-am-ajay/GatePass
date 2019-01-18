@@ -32,19 +32,24 @@ public class Visitor {
 	
 	@Column(name="name")
 	@NotNull(message="Name cannot be Null.")
-	@Size(min=1, message="Is required.")
+	@Size(min=1, message="Required.")
 	private String  name;
 	
 	@Column(name="address")
 	private String address;
 	
-	@NotNull(message="Contact cannot be Null.")
-	@Size(min=1, message="Is required")
 	@Column(name="contact")
+	@NotNull(message="Contact cannot be Null.")
+	@Size(min=10, max=10, message="Should be 10 character.")
 	private String contact;
 	
+	@NotNull(message="Contact cannot be Null.")
+	@Size(min=1, message="Cannot be Blank")
 	@Column(name="company")
 	private String company;
+	
+	@Column(name="email")
+	private String email;
 	
 	@ElementCollection(fetch=FetchType.EAGER)
 	@CollectionTable(name="visitorEntry", joinColumns=@JoinColumn(name="V_ID"))
@@ -116,6 +121,14 @@ public class Visitor {
 	}
 	public void setCompany(String company) {
 		this.company = company;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/*

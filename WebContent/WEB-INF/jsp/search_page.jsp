@@ -90,6 +90,7 @@
 		      <th scope="col">Name</th>
 		      <th scope="col">Address</th>
 		      <th scope="col">Contact</th>
+		      <th scope="col">email</th>
 		      <th scope="col">Company</th>
 		      <th scope="col">Pass No</th>
 		      <th scope="col">Visiting Department</th>
@@ -103,11 +104,12 @@
 		    	<core:forEach var="visitor" items="${visitorList}">
 		    		<tr>
 		    			<td><%=++counter%></td>
+		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getGatePassNo()}" /></td>
 		    			<td><a href="${pageContext.request.contextPath}/get_visitor?id=${visitor.getId()}"><core:out value="${visitor.getName()}"/></a></td>
 		    			<td><core:out value="${visitor.getAddress()}"/></td>
 		    			<td><core:out value="${visitor.getContact()}" /></td>
+		    			<td><core:out value="${visitor.getEmail()}" /></td>
 		    			<td><core:out value="${visitor.getCompany()}" /></td>
-		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getGatePassNo()}" /></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitReason()}" /></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitDate()} ${visitor.getVisitorEntryList().get(0).getVisitTime()}" /></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" /></td>
