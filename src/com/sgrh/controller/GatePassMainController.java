@@ -80,7 +80,8 @@ public class GatePassMainController {
 			BindingResult result, HttpSession session) {
 		Visitor v = (Visitor)session.getAttribute("visitor");
 		visitorDao.saveVisitor(visitor,oldVisitor);
-		String msg = "Welcome "+ visitor.getName() +" ! Your Gate Pass No : "+en.getGatePassNo()+". Issue Date : "+en.getVisitDate();
+		String msg = "Welcome "+ visitor.getName() +" ! Your Gate Pass No : "+en.getGatePassNo()+". Issue Date : "+en.getVisitDate()
+		+".Dept : "+en.getVisitReason();
 		
 		
 		// Send GatePass sms to visitor
