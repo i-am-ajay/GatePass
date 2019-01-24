@@ -10,6 +10,12 @@
 <title>Search Details</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
+	
+<style type="text/css">
+	.modal-dialog{
+		width : 360px;
+	}
+</style>
 </head>
 <body>
 	<!-- Login Support -->
@@ -102,8 +108,9 @@
 		  <tbody>
 		  	<% int counter = 0; %>	
 		    	<core:forEach var="visitor" items="${visitorList}">
+		    		<%counter += 1; %>
 		    		<tr>
-		    			<td><%=++counter%></td>
+		    			<td><%=counter%></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getGatePassNo()}" /></td>
 		    			<td><a href="${pageContext.request.contextPath}/get_visitor?id=${visitor.getId()}"><core:out value="${visitor.getName()}"/></a></td>
 		    			<td><core:out value="${visitor.getAddress()}"/></td>
@@ -112,9 +119,51 @@
 		    			<td><core:out value="${visitor.getCompany()}" /></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitReason()}" /></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitDate()} ${visitor.getVisitorEntryList().get(0).getVisitTime()}" /></td>
-		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" /></td>
-		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getIdImagePath()}" /></td>
+		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" 
+		    				data-toggle="modal" data-target="#personImg<%=counter %>"/></td>
+		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getIdImagePath()}" 
+		    				data-toggle="modal" data-target="#idImg<%=counter %>"/></td>
 		    		</tr>
+		    		
+		    		<!-- Person Image modal  -->
+		    		<div class="modal fade" id="personImg<%=counter%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog modal-sm ml-auto" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        <img src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" />
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						<!-- Id Image -->
+						<div class="modal fade" id="idImg<%=counter%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog modal-sm ml-auto" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        <img src="${pageContext.request.contextPath}/static_resource/images/${visitor.getIdImagePath()}" />
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
 		    	</core:forEach>
 		  </tbody>
 		</table>

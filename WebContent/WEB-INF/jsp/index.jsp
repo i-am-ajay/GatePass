@@ -88,7 +88,7 @@
 					<label for="email_id" class="control-label col-3 col-sm-2 font-weight-bold">Email</label>
 					<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
 							id="email_id" name="email" path="email"
-							placeholder="#Contact"/>
+							placeholder="email"/>
 					<sf:errors path="email" element="div"
 							cssClass="alert alert-danger w-25 mt-1 ml-auto mr-auto p-1 font-weight-light col-6 col-sm-8" />
 					</div>
