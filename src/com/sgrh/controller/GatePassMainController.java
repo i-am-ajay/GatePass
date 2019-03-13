@@ -51,7 +51,7 @@ import com.sgrh.utility.Base64ToImage;
 import com.sgrh.utility.SmsSender;
 
 @Controller
-@SessionAttributes({"visitor","visitor_entry","old_visitor"})
+@SessionAttributes({"visitor","visitor_entry","old_visitor","user"})
 public class GatePassMainController {
 	
 	@Autowired
@@ -79,8 +79,8 @@ public class GatePassMainController {
 			@ModelAttribute("old_visitor") boolean oldVisitor, @ModelAttribute("visitor_entry") VisitorEntry en,
 			BindingResult result, HttpSession session) {
 		Visitor v = (Visitor)session.getAttribute("visitor");
-		visitorDao.saveVisitor(visitor,oldVisitor);
-		String msg = "Welcome "+ visitor.getName() +" ! Your Gate Pass No : "+en.getGatePassNo()+". Issue Date : "+en.getVisitDate()
+		long gatePassNo = visitorDao.saveVisitor(visitor,oldVisitor,en);
+		String msg = "Welcome "+ visitor.getName() +" ! Your Gate Pass No : "+gatePassNo+". Issue Date : "+en.getVisitDate()
 		+".Dept : "+en.getVisitReason();
 		
 		
@@ -165,7 +165,7 @@ public class GatePassMainController {
 			visitor.setImagePath(personImgName);
 			visitor.setIdImagePath(idImage);
 		}
-		System.out.println("Processed Form"+visitor.getVisitorEntryList().get(0).getVisitReason());
+		//System.out.println("Processed Form"+visitor.getVisitorEntryList().get(0).getVisitReason());
 		System.out.println(entry.getVisitDate());
 		model.addAttribute("visitor",visitor);
 		model.addAttribute("visitor_entry",entry);
@@ -195,7 +195,7 @@ public class GatePassMainController {
 		        storageService.save(request,req);
 		        
 		        visitor.setImagePath(uuid.concat("/").concat(fileName));
-		        System.out.println(visitorDao.saveVisitor(visitor,true));
+		        //System.out.println(visitorDao.saveVisitor(visitor,true));
 		        targetPath = "processed_form";
 			}
 			catch(Exception ex) {
@@ -242,11 +242,13 @@ public class GatePassMainController {
 	}
 	
 	@RequestMapping("entry_page")
-	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, final Errors error) {
+	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, @ModelAttribute("user") String user, final Errors error) {
 		model.addAttribute("visitor",visitor);
 		VisitorEntry entry = new VisitorEntry();
 		entry.setVisitDate(LocalDate.now());
 		entry.setVisitTime(LocalTime.now());
+		//System.out.println(userName);
+		/*
 		System.out.println("lksjflksdj"+visitorDao.getLastPassNo());
 		int gatePassNo = visitorDao.getLastPassNo();
 		if(gatePassNo > 0) {
@@ -255,7 +257,9 @@ public class GatePassMainController {
 		else {
 			gatePassNo = 1;
 		}
-		entry.setGatePassNo(gatePassNo);
+		//entry.setGatePassNo(gatePassNo);*/
+		System.out.println("User : "+user);
+		entry.setUser(user);
 		model.addAttribute("visitor_entry",entry);
 		model.addAttribute("deptList",departmentDao.getDeptList());
 		return "entry_page";
@@ -269,14 +273,13 @@ public class GatePassMainController {
 		return "redirect:entry_page";
 	}
 	
-	
 	@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
 		return "redirect://";
 	}
 	
 	@RequestMapping("process_login")
-	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath) {
+	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath, Model model) {
 		User user = visitorDao.getUser(username);
 		String page = "login";
 		try {
@@ -292,6 +295,8 @@ public class GatePassMainController {
 					System.out.println("TRUE");
 					HttpSession session = request.getSession();
 					session.setAttribute("isLogged", true);
+					//userName = user.getUsername();
+					model.addAttribute("user",user.getUsername());
 				}
 			}
 		}

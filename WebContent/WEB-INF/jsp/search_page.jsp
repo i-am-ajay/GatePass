@@ -15,6 +15,9 @@
 	.modal-dialog{
 		width : 360px;
 	}
+	.modal{
+		position : sticky;
+	}
 </style>
 </head>
 <body>
@@ -46,7 +49,7 @@
 				<label for="name_id" class="font-weight-bold">Name</label>
 				<input type="text" name="name" id="name_id" class="form-control form-control-sm" />
 			</div>
-			<div class="col-6 form-group">
+			<div class=" col-6 form-group">
 					<label for="contact_id" class="font-weight-bold">Contact</label>
 					<input type="text" class="form-control form-control-sm" id="contact_id" name="contact" /></div>
 		</div>
@@ -93,14 +96,14 @@
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
-		      <th scope="col">Name</th>
-		      <th scope="col">Address</th>
-		      <th scope="col">Contact</th>
-		      <th scope="col">email</th>
-		      <th scope="col">Company</th>
 		      <th scope="col">Pass No</th>
+		      <th scope="col">Name</th>
+		      <th scope="col" class="d-none d-md-table-cell">Address</th>
+		      <th scope="col" class="d-none d-md-table-cell">Contact</th>
+		      <th scope="col" class="d-none d-md-table-cell">email</th>
+		      <th scope="col" class="d-none d-md-table-cell">Company</th>
 		      <th scope="col">Visiting Department</th>
-		      <th scope="col">Visit Time</th>
+		      <th scope="col" class="d-none d-md-table-cell">Visit Time</th>
 		      <th scope="col">Person Image</th>
 		      <th scope="col">Id Image</th>
 		    </tr>
@@ -108,17 +111,19 @@
 		  <tbody>
 		  	<% int counter = 0; %>	
 		    	<core:forEach var="visitor" items="${visitorList}">
+		    		<!--<core:forEach var = "visitorEntryList" items="${visitor.getVisitorEntryList()}">-->
 		    		<%counter += 1; %>
 		    		<tr>
 		    			<td><%=counter%></td>
-		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getGatePassNo()}" /></td>
+		    			<!-- visitor.getVisitorEntryList().get(0). -->
+		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getPassNo()}" /></td>
 		    			<td><a href="${pageContext.request.contextPath}/get_visitor?id=${visitor.getId()}"><core:out value="${visitor.getName()}"/></a></td>
-		    			<td><core:out value="${visitor.getAddress()}"/></td>
-		    			<td><core:out value="${visitor.getContact()}" /></td>
-		    			<td><core:out value="${visitor.getEmail()}" /></td>
-		    			<td><core:out value="${visitor.getCompany()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getAddress()}"/></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getContact()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getEmail()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getCompany()}" /></td>
 		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitReason()}" /></td>
-		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitDate()} ${visitor.getVisitorEntryList().get(0).getVisitTime()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getVisitorEntryList().get(0).getVisitDate()} ${visitorEntryList.getVisitTime()}" /></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" 
 		    				data-toggle="modal" data-target="#personImg<%=counter %>"/></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getIdImagePath()}" 
@@ -127,7 +132,7 @@
 		    		
 		    		<!-- Person Image modal  -->
 		    		<div class="modal fade" id="personImg<%=counter%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog modal-sm ml-auto" role="document">
+						  <div class="modal-dialog modal-sm" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -147,7 +152,7 @@
 						
 						<!-- Id Image -->
 						<div class="modal fade" id="idImg<%=counter%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog modal-sm ml-auto" role="document">
+						  <div class="modal-dialog modal-sm" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
@@ -164,6 +169,7 @@
 						    </div>
 						  </div>
 						</div>
+				<!--</core:forEach>-->
 		    	</core:forEach>
 		  </tbody>
 		</table>

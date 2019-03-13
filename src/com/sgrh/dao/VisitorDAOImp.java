@@ -1,6 +1,7 @@
 package com.sgrh.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sgrh.bean.User;
 import com.sgrh.bean.Visitor;
+import com.sgrh.bean.VisitorEntry;
 import com.sgrh.localSessionFactory.VisitorSessionFactory;
 
 @Repository
@@ -25,16 +27,22 @@ public class VisitorDAOImp {
 	}
 	
 	@Transactional
-	public boolean saveVisitor(Visitor visitor, boolean oldVisitor) {
+	public long saveVisitor(Visitor visitor, boolean oldVisitor, VisitorEntry en) {
 		boolean isSuccess = false;
+		long gatePassNo = 0;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			Session session = sFactory.getCurrentSession();
 			try {
 				session.setHibernateFlushMode(FlushMode.MANUAL);
 				session.saveOrUpdate(visitor);
+				en.setVisitor(visitor);
+				session.save(en);
+				visitor.getVisitorEntryList().add(en);
+				
 				session.flush();
 			}
+			
 			catch(Exception ex) {
 				ex.printStackTrace();
 			}
@@ -48,7 +56,7 @@ public class VisitorDAOImp {
 			ex.printStackTrace();
 			isSuccess = false;
 		}
-		return isSuccess;
+		return gatePassNo;
 	}
 	
 	@Transactional
@@ -119,9 +127,6 @@ public class VisitorDAOImp {
 			System.out.println(query);
 			Query<Visitor> executionQuery = session.createQuery(query, Visitor.class);
 			visitorList = executionQuery.getResultList();
-			for(Visitor visitor : visitorList) {
-				System.out.println(visitor.getName());
-			}
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
@@ -129,6 +134,12 @@ public class VisitorDAOImp {
 		finally {
 			session.close();
 		}
+		visitorList.stream().forEach(
+				n -> {
+					System.out.println(n.getName());
+					System.out.println(n.getVisitorEntryList().size());
+				}
+		);
 		return visitorList;
 	}
 	

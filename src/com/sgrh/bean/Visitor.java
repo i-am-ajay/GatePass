@@ -3,8 +3,11 @@ package com.sgrh.bean;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -15,10 +18,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Component;
@@ -51,10 +58,15 @@ public class Visitor {
 	@Column(name="email")
 	private String email;
 	
-	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="visitorEntry", joinColumns=@JoinColumn(name="V_ID"))
-	@Embedded
-	private List<VisitorEntry> visitorEntryList = new ArrayList<>();
+	
+	//@ElementCollection(fetch=FetchType.EAGER)
+	//@CollectionTable(name="visitorEntry", joinColumns=@JoinColumn(name="V_ID"))
+	//@CollectionId(columns= {@Column(name = "Pass_No")}, generator = "pass_generator", type = @Type(type="long"))
+	/*@GenericGenerator(name="pass_generator", strategy="enhanced-sequence", parameters = {
+			@org.hibernate.annotations.Parameter(name="sequence_name",value="pass_no_table") 
+	})*/
+	@OneToMany(mappedBy = "visitor", cascade= {CascadeType.PERSIST})
+	private Set<VisitorEntry> visitorEntryList = new HashSet<>();
 	
 	/*
 	@Column(name="visit_department")
@@ -174,6 +186,7 @@ public class Visitor {
 	public String getImagePath() {
 		return imagePath;
 	}
+	
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
@@ -192,12 +205,12 @@ public class Visitor {
 	public void setIdImagePath(String idImagePath) {
 		this.idImagePath = idImagePath;
 	}
-
-	public List<VisitorEntry> getVisitorEntryList() {
+	
+	public Set<VisitorEntry> getVisitorEntryList() {
 		return visitorEntryList;
 	}
 
-	public void setVisitorEntryList(List<VisitorEntry> visitorEntryList) {
+	public void setVisitorEntryList(Set<VisitorEntry> visitorEntryList) {
 		this.visitorEntryList = visitorEntryList;
 	}
 	
