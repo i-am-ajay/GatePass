@@ -35,9 +35,9 @@ public class VisitorDAOImp {
 			Session session = sFactory.getCurrentSession();
 			try {
 				session.setHibernateFlushMode(FlushMode.MANUAL);
-				session.saveOrUpdate(visitor);
+				
+				
 				en.setVisitor(visitor);
-				session.save(en);
 				visitor.getVisitorEntryList().add(en);
 				
 				session.flush();
