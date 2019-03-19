@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,8 +51,8 @@ public class Visitor {
 	@Size(min=10, max=10, message="Should be 10 character.")
 	private String contact;
 	
-	@NotNull(message="Contact cannot be Null.")
-	@Size(min=1, message="Cannot be Blank")
+	//@NotNull(message="Company cannot be Null.")
+	//@Size(min=1, message="Cannot be Blank")
 	@Column(name="company")
 	private String company;
 	
@@ -65,9 +66,8 @@ public class Visitor {
 	/*@GenericGenerator(name="pass_generator", strategy="enhanced-sequence", parameters = {
 			@org.hibernate.annotations.Parameter(name="sequence_name",value="pass_no_table") 
 	})*/
-	@OneToMany(mappedBy = "visitor", cascade= {CascadeType.PERSIST})
+	@OneToMany(mappedBy = "visitor", cascade= {CascadeType.PERSIST},fetch = FetchType.EAGER)
 	private Set<VisitorEntry> visitorEntryList = new HashSet<>();
-	
 	/*
 	@Column(name="visit_department")
 	@NotNull(message="Cannot be blank")
@@ -103,7 +103,7 @@ public class Visitor {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void addId(int id) {
 		this.id = id;
 	}
 	// name field

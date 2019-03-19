@@ -7,7 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Search Details</title>
+<title>Search Page</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
 	
@@ -111,22 +111,21 @@
 		  <tbody>
 		  	<% int counter = 0; %>	
 		    	<core:forEach var="visitor" items="${visitorList}">
-		    		<!--<core:forEach var = "visitorEntryList" items="${visitor.getVisitorEntryList()}">-->
 		    		<%counter += 1; %>
 		    		<tr>
 		    			<td><%=counter%></td>
 		    			<!-- visitor.getVisitorEntryList().get(0). -->
-		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getPassNo()}" /></td>
-		    			<td><a href="${pageContext.request.contextPath}/get_visitor?id=${visitor.getId()}"><core:out value="${visitor.getName()}"/></a></td>
-		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getAddress()}"/></td>
-		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getContact()}" /></td>
-		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getEmail()}" /></td>
-		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getCompany()}" /></td>
-		    			<td><core:out value="${visitor.getVisitorEntryList().get(0).getVisitReason()}" /></td>
-		    			<td class="d-none d-md-table-cell"><core:out value="${visitor.getVisitorEntryList().get(0).getVisitDate()} ${visitorEntryList.getVisitTime()}" /></td>
-		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" 
+		    			<td><core:out value="${visitor[0].toString()}" /></td>
+		    			<td><a href="${pageContext.request.contextPath}/get_visitor?id=${visitor[1].toString()}"><core:out value="${visitor[2].toString()}"/></a></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[3].toString()}"/></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[4].toString()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[5].toString()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[6].toString()}" /></td>
+		    			<td><core:out value="${visitor[7].toString()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[8].toString()} ${visitor[9].toString()}" /></td>
+		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor[10].toString()}" 
 		    				data-toggle="modal" data-target="#personImg<%=counter %>"/></td>
-		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor.getIdImagePath()}" 
+		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor[11].toString()}" 
 		    				data-toggle="modal" data-target="#idImg<%=counter %>"/></td>
 		    		</tr>
 		    		
@@ -135,13 +134,13 @@
 						  <div class="modal-dialog modal-sm" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						        <h5 class="modal-title" id="exampleModalLabel">Person Image</h5>
 						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						          <span aria-hidden="true">&times;</span>
 						        </button>
 						      </div>
 						      <div class="modal-body">
-						        <img src="${pageContext.request.contextPath}/static_resource/images/${visitor.getImagePath()}" />
+						        <img src="${pageContext.request.contextPath}/static_resource/images/${visitor[10].toString()}" />
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -155,13 +154,13 @@
 						  <div class="modal-dialog modal-sm" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+						        <h5 class="modal-title" id="exampleModalLabel">Id Proof</h5>
 						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						          <span aria-hidden="true">&times;</span>
 						        </button>
 						      </div>
 						      <div class="modal-body">
-						        <img src="${pageContext.request.contextPath}/static_resource/images/${visitor.getIdImagePath()}" />
+						        <img src="${pageContext.request.contextPath}/static_resource/images/${visitor[11].toString()}" />
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -169,7 +168,6 @@
 						    </div>
 						  </div>
 						</div>
-				<!--</core:forEach>-->
 		    	</core:forEach>
 		  </tbody>
 		</table>

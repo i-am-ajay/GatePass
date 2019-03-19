@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insert title here</title>
+<title>View Entered Details</title>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
 <link rel="stylesheet" media="print"
@@ -96,10 +96,13 @@
 					</div>
 					</div>
 				</div>
-				<div class="row border mt-3">
+				<div class="row mt-3 mb-3">
 				<sf:form action="save" modelAttribute="visitor" method = "Post" class="col m-md-auto m-sm-left">
-					<input type="submit" class="btn btn-block btn-sm btn-secondary w-50 text-center m-sm-auto" value="Print & Save"/>
+					<input type="submit" class="btn btn-block btn-sm btn-secondary w-50 text-center m-sm-auto" value="Save"/>
 				</sf:form>
+				<form action="clear" method = "Post" class="col m-md-auto m-sm-left">
+					<input type="submit" class="btn btn-block btn-sm btn-secondary w-50 text-center m-sm-auto" value="Clear"/>
+				</form>
 				</div>
 			</div>
 			<div>

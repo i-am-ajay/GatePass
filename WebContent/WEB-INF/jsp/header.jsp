@@ -10,9 +10,8 @@
 				<li class="nav-item active"><a class="nav-link" href="${pageContext.request.contextPath}">Home
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
 				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/search">Reports</a>
-				</li>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/log_out">Logout</a></li>
 			</ul>
 		</div>
 		</nav>

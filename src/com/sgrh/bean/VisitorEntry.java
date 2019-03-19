@@ -47,7 +47,7 @@ public class VisitorEntry {
 	@Column(name = "user")
 	private String user;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name = "V_ID")
 	private Visitor visitor;
 	
@@ -97,6 +97,9 @@ public class VisitorEntry {
 		this.user = user;
 	}
 	
+	public void addPassNo(int passNo) {
+		this.passNo = passNo;
+	}
 	public long getPassNo() {
 		return passNo;
 	}

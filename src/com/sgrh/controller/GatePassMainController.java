@@ -124,16 +124,16 @@ public class GatePassMainController {
 			company = "Company = '".concat(company).concat("'");
 		}
 		if(!Strings.isNullOrEmpty(passNo)) {
-			passNo = "vList.gatePassNo = ".concat(passNo);
+			passNo = "visitorentry.pass_no = ".concat(passNo);
 		}
 		if(!Strings.isNullOrEmpty(department)) {
-			department = "vList.visitReason ='".concat(department).concat("'");
+			department = "visitorentry.visit_department ='".concat(department).concat("'");
 		}
 		if(!Strings.isNullOrEmpty(fromDate)){
-			fromDate = "vList.visitDate >= '".concat(fromDate).concat("'");
+			fromDate = "visitorentry.visit_date >= '".concat(fromDate).concat("'");
 		}
 		if(!Strings.isNullOrEmpty(toDate)){
-			toDate = "vList.visitDate <= '".concat(toDate).concat("'");
+			toDate = "visitorentry.visit_date <= '".concat(toDate).concat("'");
 		}
 		String joiner = Joiner.on(" AND ").skipNulls().join("1=1",Strings.emptyToNull(name),Strings.emptyToNull(passNo),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(fromDate),Strings.emptyToNull(toDate));
 		System.out.println(joiner);
@@ -149,10 +149,17 @@ public class GatePassMainController {
 	
 	@RequestMapping("processed")
 	public String fileUploader(Model model, @ModelAttribute("visitor") final Visitor visitor, 
-			@ModelAttribute("visitor_entry") final VisitorEntry entry, @ModelAttribute("old_visitor") final boolean oldVisitor,
+			@Valid @ModelAttribute("visitor_entry") final VisitorEntry entry,BindingResult result, @ModelAttribute("old_visitor") final boolean oldVisitor,
 			final Errors error /*@RequestParam("id") int id*/, HttpSession session, HttpServletRequest request) {
+		if(result.hasErrors()) {
+			model.addAttribute("visitor",visitor);
+			model.addAttribute("old_visitor",oldVisitor);
+			return "redirect:entry_page";
+		}
+		else {
 		Visitor vis = (Visitor)session.getAttribute("visitor");
-		vis.getVisitorEntryList().add(entry);
+		vis.getVisitorEntryList().add(entry); // In case we visitor is an old visitor this will fail if visitor entry list loading is lazy.
+		System.out.println("Method : fileUploader : Visitor Id "+visitor.getId());
 		if(!oldVisitor) {
 			String imgName = vis.getName() + vis.getContact();
 			String personImgName = imgName+"_person.jpeg";
@@ -170,6 +177,7 @@ public class GatePassMainController {
 		model.addAttribute("visitor",visitor);
 		model.addAttribute("visitor_entry",entry);
 		return "processed_form";
+		}
 	}
 	
 	@RequestMapping(value="uploadParser")
@@ -242,8 +250,9 @@ public class GatePassMainController {
 	}
 	
 	@RequestMapping("entry_page")
-	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, @ModelAttribute("user") String user, final Errors error) {
+	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, @ModelAttribute("user") String user,final Errors error) {
 		model.addAttribute("visitor",visitor);
+		System.out.println("visitor id" + visitor.getId());
 		VisitorEntry entry = new VisitorEntry();
 		entry.setVisitDate(LocalDate.now());
 		entry.setVisitTime(LocalTime.now());
@@ -273,11 +282,11 @@ public class GatePassMainController {
 		return "redirect:entry_page";
 	}
 	
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
 		return "redirect://";
-	}
-	
+	}*/
+
 	@RequestMapping("process_login")
 	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath, Model model) {
 		User user = visitorDao.getUser(username);
@@ -295,6 +304,7 @@ public class GatePassMainController {
 					System.out.println("TRUE");
 					HttpSession session = request.getSession();
 					session.setAttribute("isLogged", true);
+					session.setMaxInactiveInterval(60*60); // invalidate session after 10 min of inactivity
 					//userName = user.getUsername();
 					model.addAttribute("user",user.getUsername());
 				}
@@ -303,8 +313,23 @@ public class GatePassMainController {
 		catch(Exception ex) {
 			ex.getStackTrace();
 		}
-		System.out.println(page);
 		return redirectPath;
+	}
+	
+	@RequestMapping(value = "clear")
+	public String clearAndRedirect(Model model, @ModelAttribute("visitor") Visitor visitor, @ModelAttribute("visitor_entry") VisitorEntry visitorEntry,
+			@ModelAttribute("old_visitor") boolean old_user) {
+		model.addAttribute("visitor", null);
+		model.addAttribute("visitor_entry",null);
+		model.addAttribute("old_visitor",false);
+		return "redirect://";
+	}
+	
+	@RequestMapping(value = "log_out")
+	public String logOut( HttpSession session) {
+		System.out.println("Logout being called.");
+		session.invalidate();
+		return "redirect://";
 	}
 	
 }

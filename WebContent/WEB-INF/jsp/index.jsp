@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insert title here</title>
+<title>Enter Visitor Details</title>
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
@@ -29,7 +29,6 @@
 		HttpSession session1 = request.getSession();
 		boolean loggedIn = false;
 		try{
-			System.out.println("Index page is called.");
 			loggedIn = (Boolean)session1.getAttribute("isLogged");
 		}
 		catch(NullPointerException ex){

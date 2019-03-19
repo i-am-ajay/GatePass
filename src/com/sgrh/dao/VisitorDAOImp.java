@@ -1,6 +1,8 @@
 package com.sgrh.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.FlushMode;
@@ -9,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,11 +38,10 @@ public class VisitorDAOImp {
 			Session session = sFactory.getCurrentSession();
 			try {
 				session.setHibernateFlushMode(FlushMode.MANUAL);
-				
-				
+				session.saveOrUpdate(visitor);
 				en.setVisitor(visitor);
 				visitor.getVisitorEntryList().add(en);
-				
+				session.save(en);
 				session.flush();
 			}
 			
@@ -56,7 +58,7 @@ public class VisitorDAOImp {
 			ex.printStackTrace();
 			isSuccess = false;
 		}
-		return gatePassNo;
+		return en.getPassNo();
 	}
 	
 	@Transactional
@@ -116,30 +118,40 @@ public class VisitorDAOImp {
 	}
 	
 	@Transactional
-	public List<Visitor> getSearchResult(String queryParam) {
+	public List<Object[]> getSearchResult(String queryParam) {
 		Session session = null;
-		List<Visitor> visitorList = null;
+		List<Object[]> visitorList = null;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
-			String query = "FROM Visitor v INNER JOIN v.visitorEntryList vList WHERE ";
+			String query = "SELECT Pass_No,ID,Name,Address,Contact,email,Company,VISIT_DEPARTMENT,VISIT_DATE,VISIT_TIME,image_path,\r\n" + 
+					"	id_image_path\r\n" + 
+					"FROM \r\n" + 
+					"	visitor INNER JOIN visitorentry ON 1=1 AND visitor.id = visitorentry.V_ID\r\n" + 
+					"WHERE ";
 			query = query.concat(queryParam);
 			System.out.println(query);
-			Query<Visitor> executionQuery = session.createQuery(query, Visitor.class);
-			visitorList = executionQuery.getResultList();
-		}
+			NativeQuery executionQuery = session.createSQLQuery(query);
+			visitorList = executionQuery.list();
+			
+			for(Object[] obj : visitorList ) {
+					obj[8] = obj[8].toString().substring(0,10);
+					obj[9]= obj[9].toString().substring(0,5);
+				}
+			}
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
 		finally {
 			session.close();
 		}
+		/*
 		visitorList.stream().forEach(
 				n -> {
 					System.out.println(n.getName());
 					System.out.println(n.getVisitorEntryList().size());
 				}
-		);
+		);*/
 		return visitorList;
 	}
 	

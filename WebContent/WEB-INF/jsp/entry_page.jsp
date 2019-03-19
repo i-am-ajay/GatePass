@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insert title here</title>
+<title>Visitor Entry Details</title>
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/static_resource/css/bootstrap.min.css" />
@@ -55,9 +55,9 @@
 			<sf:form action="processed" modelAttribute="visitor_entry">
 				<!-- Visit Reason -->
 				<div class="form-group row">
-					<label for="visitR_id" class="control-label font-weight-bold col-3 col-sm-2">Visiting
+					<label for="visitR_id" class="control-label font-weight-bold col-3 col-md-2">Visiting
 						Department</label>
-					<sf:input list="deptList" class="form-control form-control-sm col-6 col-sm-8"
+					<sf:input list="deptList" class="form-control form-control-sm col-6 col-md-8"
 						id="visitR_id" name="Visit" path="visitReason"
 						placeholder="Visit Reason" />
 					<sf:errors path="visitReason" element="div"
@@ -72,17 +72,17 @@
 
 				<!-- Visit Timings-->
 				<div class="form-group row">
-					<label for="vdate_id" class="control-label font-weight-bold col-3 col-sm-2">Visit
+					<label for="vdate_id" class="control-label font-weight-bold col-3 col-md-2">Visit
 						Date</label>
-					<sf:input type="date" class="form-control form-control-sm col-6 col-sm-8"
+					<sf:input type="date" class="form-control form-control-sm col-6 col-md-8"
 						path="visitDate" name="visitDate" placeholder="dd-mm-yyyy"
 						id="visitDateId" />
 				</div>
 
 				<div class="form-group row">
-					<label for="vtime_id" class="control-label font-weight-bold col-3 col-sm-2">Visit
+					<label for="vtime_id" class="control-label font-weight-bold col-3 col-md-2">Visit
 						Time</label>
-					<sf:input type="time" class="form-control form-control-sm col-6 col-sm-8"
+					<sf:input type="time" class="form-control form-control-sm col-6 col-md-8"
 						id="visitTimeId" path="visitTime" name="visitTime"
 						placeholder="hh:mm a" />
 				</div>
