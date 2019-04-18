@@ -38,7 +38,7 @@
 			<!-- for video -->
 			<div class="p-2">
 				<h5 class="text-muted"><%=title%></h5>
-				<video id="video" width="240" height="180" playsinline autoplay></video>
+				<video id="video" width="240" height="180"  muted autoplay></video><!-- playsinline -->
 				<!-- for capturing image -->
 				<div class="text-left">
 					<button id="snap" class="btn btn-sm btn-secondary w-25">Snap
@@ -51,9 +51,16 @@
     		<label for="audioSource">Audio source: </label><select id="audioSource"></select>
   			</div> -->
 
-  			<div class="select form-group-row">
+  			<!--  <div class="select form-group-row">
     			<label for="videoSource" class="form-label">Video source: </label><select id="videoSource" class= "form-control form-control-sm"></select>
-  			</div>
+  			</div>-->
+  			<!--  
+  			<label for="videoSource"> Video source: </label>
+  			<select id="videoSource" class= "form-control form-control-sm" onChange="cameraFunction(this.value)">
+  				<option value="user">Camera Front</option>
+  				<option value="environment">Camera Back</option>
+  			</select>
+  			-->
 			<div class="mt-3 mb-3 border-bottom border-secondary"></div>
 			<!-- to display image -->
 			<div class="p-2">
@@ -75,6 +82,7 @@
 	</div>
 	<script>
 		// SET VIDEO STREAM
+		
 		var video = document.getElementById("video");
 		var canvas = document.getElementById("canvas");
 		var context = canvas.getContext("2d");
@@ -83,6 +91,7 @@
 		
 		canvas.addEventListener("load",
 			function(){
+				testValue = "user"
 				originalHeight = video.videoHeight;
 				originalWidth = video.videoWidth;
 				alert(hello);
@@ -118,35 +127,39 @@
 				document.getElementById('image').value = imageUrl;
 			}
 		);
-		(
-			function(){
-				//alert('hello');
+		
+		var cameraFunction = function(camera){
 				if(navigator.mediaDevices.getUserMedia){
-					navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: { exact: "environment" } } }).then(
-						function(stream){
-							 video = document.querySelector('video');
-							 video.srcObject = stream;
-							 video.onloadedmetadata = function(e) {
-								    video.play();
-								  };
+				//navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: { exact: "environment" } } }).then(
+				navigator.mediaDevices.getUserMedia({ audio: true, video: { facingMode: { exact: camera } } }).then(
+					function(stream){
+						//alert('hello');
+						video = document.querySelector('video');
+						video.srcObject = stream;
+						video.onloadedmetadata = function(e) {
+						video.play();
+							};
 						}		
 					);
+					video.load();
 			}
-		}()	
-		);
+		}
+		cameraFunction("user");	
+		
+					
 		'use strict';
+		
 		// change camera
 		const videoElement = document.querySelector('video');
-		//var audioSelect = document.querySelector('select#audioSource');
+		var audioSelect = document.querySelector('select#audioSource');
 		const videoSelect = document.querySelector('select#videoSource');
 		const selectors = [videoSelect];
-		
+	
 		/*
-		
 		navigator.mediaDevices.enumerateDevices()
 		  .then(gotDevices).then(getStream).catch(handleError);
 		
-		//audioSelect.onchange = getStream;
+		audioSelect.onchange = getStream;
 		videoSelect.onchange = getStream;
 		
 		function gotDevices(deviceInfos) {
@@ -199,10 +212,11 @@
 		function handleError(error) {
 		  console.log('Error: ', error);
 		}
-		*/
+		// put comment here */
 
 		// New Code
-		
+	// uncomment for working code
+	/*
 		function gotDevices(deviceInfos) {
   // Handles being called several times to update labels. Preserve values.
 		  const values = selectors.map(select => select.value);
@@ -262,8 +276,8 @@
 
 			videoSelect.onchange = start;
 
-			start();
-
+			start();*/
+	
 		
 		
 	</script>

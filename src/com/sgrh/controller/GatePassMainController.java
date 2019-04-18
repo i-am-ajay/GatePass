@@ -332,4 +332,9 @@ public class GatePassMainController {
 		return "redirect://";
 	}
 	
+	@RequestMapping(value = "pass")
+	public String showPass() {
+		return "show_pass";
+	}
+	
 }
