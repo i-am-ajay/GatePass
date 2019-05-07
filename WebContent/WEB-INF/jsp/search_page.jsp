@@ -76,7 +76,7 @@
 		<div class="row">
 			<div class="col-6 form-group">
 				<label for="fromdate_id" class="font-weight-bold">From Date</label>
-				<input type="date" name="from_date" id="fromdate_id" class= "form-control form-control-sm" value="<%=java.time.LocalDate.now()%>" />
+				<input type="date" name="from_date" id="fromdate_id" class= "form-control form-control-sm" value="<%=java.time.LocalDate.now().minusDays(30)%>" />
 			</div>
 			<div class="col-6 form-group">
 				<label for="to_date_id" class="font-weight-bold">To Date</label>

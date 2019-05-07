@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.catalina.tribes.util.Arrays;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,7 +52,7 @@ import com.sgrh.utility.Base64ToImage;
 import com.sgrh.utility.SmsSender;
 
 @Controller
-@SessionAttributes({"visitor","visitor_entry","old_visitor","user"})
+@SessionAttributes({"visitor","visitor_entry","old_visitor","user","new_pass_no","visitor_name"})
 public class GatePassMainController {
 	
 	@Autowired
@@ -63,12 +64,18 @@ public class GatePassMainController {
 	
 	
 	@RequestMapping(value="/")
-	public String mainForm(final Model model) {
+	public String mainForm(final Model model, HttpSession session) {
 		Visitor visitor = new Visitor();
 		/*VisitorEntry entry = new VisitorEntry();
 		entry.setVisitDate(LocalDate.now());
 		entry.setVisitTime(LocalTime.now());*/
 		//visitor.getVisitorEntryList().add(entry);
+		/*
+		String attribute = (String)session.getAttribute("new_pass_no");
+		if(attribute != "" && attribute !=null) {
+			System.out.println("Pass No "+attribute);
+			session.setAttribute("new_pass_no", null);
+		}*/
 		model.addAttribute("visitor",visitor);
 		model.addAttribute("old_visitor",false);
 		return "index";
@@ -86,6 +93,8 @@ public class GatePassMainController {
 		
 		// Send GatePass sms to visitor
 		SmsSender.sendMsg(msg,v.getContact());
+		model.addAttribute("new_pass_no",gatePassNo);
+		model.addAttribute("visitor_name",visitor.getName());
 		return "redirect://";
 	}
 	
@@ -282,10 +291,10 @@ public class GatePassMainController {
 		return "redirect:entry_page";
 	}
 	
-	/*@ExceptionHandler(Exception.class)
+	@ExceptionHandler(Exception.class)
 	public String exceptionThrown() {
 		return "redirect://";
-	}*/
+	}
 
 	@RequestMapping("process_login")
 	public String processLogin(HttpServletRequest request, @RequestParam String username, @RequestParam String password, @RequestParam String redirectPath, Model model) {
@@ -333,7 +342,26 @@ public class GatePassMainController {
 	}
 	
 	@RequestMapping(value = "pass")
-	public String showPass() {
+	public String showPass(@RequestParam(value="pass_no", defaultValue = "0") int passNo, Model model) {
+		
+		if(passNo != 0) {
+			try {
+				String passParam = "1 = 1 AND ".concat("visitorentry.pass_no = ".concat(Integer.toString(passNo)));
+				List<Object[]> visitorList =  visitorDao.getSearchResult(passParam);
+				//System.out.println(Arrays.toString(visitorList.get(0)));
+				if(visitorList.size() > 0) {
+					model.addAttribute("pass_visitor", visitorList.get(0));
+				}
+				else {
+					passNo = 0;
+				}
+			}
+			catch(Exception ex) {
+				System.out.println("Not a valid pass no.");
+			}
+			
+		}
+		model.addAttribute("pass_no",passNo);
 		return "show_pass";
 	}
 	

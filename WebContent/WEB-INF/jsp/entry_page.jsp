@@ -59,7 +59,7 @@
 						Department</label>
 					<sf:input list="deptList" class="form-control form-control-sm col-6 col-md-8"
 						id="visitR_id" name="Visit" path="visitReason"
-						placeholder="Visit Reason" />
+						placeholder="Visiting Department" />
 					<sf:errors path="visitReason" element="div"
 						cssClass="alert alert-danger w-100 mt-1 p-1 font-weight-light" />
 					<datalist id="deptList">

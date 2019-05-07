@@ -43,6 +43,8 @@
 	%>
 	
 	
+	
+	
 	<!-- navigation bar -->
 
 	<div class="container">
@@ -56,7 +58,7 @@
 						<input type="hidden" name="img" value="person_img" />
 						<!-- Full Name -->
 						<label for="full_name_id" class="control-label col-3 col-sm-2 font-weight-bold">Full
-							Name</label>
+							Name<small class="text-danger">*</small></label>
 						<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
 							id="full_name_id" path="name" placeholder="Enter Name"/>
 						<sf:errors path="name" element="div"
@@ -74,7 +76,7 @@
 
 				<div class="form-group row">
 					<!-- Contact -->
-					<label for="contact_id" class="control-label col-3 col-sm-2 font-weight-bold">Contact</label>
+					<label for="contact_id" class="control-label col-3 col-sm-2 font-weight-bold">Contact<small class="text-danger">*</small></label>
 					<sf:input type="text" class="form-control form-control-sm col-6 col-sm-8"
 							id="contact_id" name="contact" path="contact"
 							placeholder="#Contact"/>
@@ -110,12 +112,38 @@
 							class="btn btn-sm btn-block btn-secondary">Click Pic</sf:button>
 						</div>
 					</div>
-					
-					</div>
 				</sf:form>
-		
 		</div>
-				
+		
+		
+		
+		 <!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Visitor Gate Pass</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <span class="font-weight-bold">Pass No : </span><span class="font-italic">${new_pass_no}</span> issued to <span class="font-weight-bold">Visitor :</span><span class="font-italic">${visitor_name}</span>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+		
+		
 		</div>
 		
 	<script type="text/javascript"
@@ -128,5 +156,17 @@
 		src="${pageContext.request.contextPath}/static_resource/js/moment.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/static_resource/js/fine_uploader.js"></script>
+	
+	<script>
+		var passNo = "${new_pass_no}";
+		if(passNo){
+			$('#myModal').modal();
+			
+		  <% session.setAttribute("new_pass_no",null); 
+		  	session.setAttribute("visitor_name",null);
+		  %>
+		}
+	</script>
+	
 </body>
 </html>

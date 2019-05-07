@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 public class SmsSender {
 	public static void sendMsg(String msg, String number) {
 		HttpURLConnection con = null;
-		String url = "http://bulksms.mysmsmantra.com/WebSMS/SMSAPI.jsp?username=sgrhsms&password=1632277827&sendername=SGRHIT&mobileno=";
+		String url = "http://bulksms.mysmsmantra.com/WebSMS/SMSAPI.jsp?username=sgrhsms&password=1367314362&sendername=SGRHIT&mobileno=";
 		
 		try {
 			url = url+number+"&message="+URLEncoder.encode(msg,"UTF-8");
