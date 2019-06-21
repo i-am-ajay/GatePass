@@ -354,7 +354,7 @@ public class GatePassMainController {
 			}
 		}
 		else {
-			System.out.println("Session part called.");
+			//System.out.println("Session part called.");
 			visitorDao.captuerEntryTime(passNo, (String)session.getAttribute("user"));
 			passNo = 0;
 			entry = false;

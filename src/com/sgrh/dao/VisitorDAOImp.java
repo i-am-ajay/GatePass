@@ -161,13 +161,14 @@ public class VisitorDAOImp {
 			String entryUserName = Strings.nullToEmpty(entry.getEntryUser());
 			System.out.println("Entry User name " +entryUserName);
 			if(entryUserName.equals("")) {
-				System.out.println("Flush mode mannual");
-				session.setHibernateFlushMode(FlushMode.MANUAL);
+				//System.out.println("Flush mode mannual");
+				//session.setHibernateFlushMode(FlushMode.MANUAL);
 				entry.setEntryUser(user);
 				entry.setEntryTime(LocalDateTime.now());
 			}
 			session.update(entry);
-			session.flush();
+			//session.flush();
+			
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
