@@ -155,21 +155,22 @@ public class VisitorDAOImp {
 		Session session = null;
 		try {
 			SessionFactory sFactory = factory.getObject();
-			session = sFactory.openSession();
+			session = sFactory.getCurrentSession();
+			System.out.println("Capture entry time Method called");
 			VisitorEntry entry = session.get(VisitorEntry.class, passNo);
 			String entryUserName = Strings.nullToEmpty(entry.getEntryUser());
+			System.out.println("Entry User name " +entryUserName);
 			if(entryUserName.equals("")) {
+				System.out.println("Flush mode mannual");
+				session.setHibernateFlushMode(FlushMode.MANUAL);
 				entry.setEntryUser(user);
 				entry.setEntryTime(LocalDateTime.now());
 			}
+			session.update(entry);
+			session.flush();
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
-		}
-		finally {
-			if(session != null) {
-				session.close();
-			}
 		}
 	}
 }
