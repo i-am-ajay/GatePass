@@ -54,6 +54,8 @@ public class Visitor {
 	//@NotNull(message="Company cannot be Null.")
 	//@Size(min=1, message="Cannot be Blank")
 	@Column(name="company")
+	@NotNull(message="Company cannot be Null.")
+	@Size(min=1, message="Required.")
 	private String company;
 	
 	@Column(name="email")

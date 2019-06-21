@@ -1,5 +1,6 @@
 package com.sgrh.dao;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Strings;
 import com.sgrh.bean.User;
 import com.sgrh.bean.Visitor;
 import com.sgrh.bean.VisitorEntry;
@@ -26,13 +28,12 @@ public class VisitorDAOImp {
 	private VisitorSessionFactory factory;
 	
 	public VisitorDAOImp() {
-		System.out.println("VisitorDAOImp called.");
+		
 	}
 	
 	@Transactional
 	public long saveVisitor(Visitor visitor, boolean oldVisitor, VisitorEntry en) {
 		boolean isSuccess = false;
-		long gatePassNo = 0;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			Session session = sFactory.getCurrentSession();
@@ -58,7 +59,8 @@ public class VisitorDAOImp {
 			ex.printStackTrace();
 			isSuccess = false;
 		}
-		return en.getPassNo();
+		long gatePass = en.getPassNo();
+		return gatePass;
 	}
 	
 	@Transactional
@@ -71,7 +73,7 @@ public class VisitorDAOImp {
 			vis = session.get(Visitor.class,id);
 		}
 		catch(Exception ex) {
-			System.out.println("Not able to get Object");
+			ex.printStackTrace();
 		}
 		finally {
 			session.close();
@@ -83,15 +85,21 @@ public class VisitorDAOImp {
 	@Transactional
 	public User getUser(String username) {
 		Session session = null;
+		User user = null;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
-			//session.get(User.class, username);
+			user = session.get(User.class, username);
 		}
 		catch(Exception ex) {
-			System.out.println("Not a valid user");
+			ex.printStackTrace();
 		}
-		return session.get(User.class, username);
+		finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+		return user;
 	}
 	
 	@Transactional
@@ -100,20 +108,14 @@ public class VisitorDAOImp {
 		int passNo = 0;
 		try {
 			SessionFactory sFactory = factory.getObject();
-			session = sFactory.openSession();
+			session = sFactory.getCurrentSession();
 			NativeQuery<Integer> query = session.createSQLQuery("SELECT MAX(Pass_no) FROM visitorentry");
 			List<Integer> list = query.getResultList();
 			passNo = list.get(0);
 		}
 		catch(Exception ex) {
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		}
-		finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-		System.out.println();
 		return passNo; 
 	}
 	
@@ -125,12 +127,12 @@ public class VisitorDAOImp {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
 			String query = "SELECT Pass_No,ID,Name,Address,Contact,email,Company,VISIT_DEPARTMENT,VISIT_DATE,VISIT_TIME,image_path,\r\n" + 
-					"	id_image_path\r\n" + 
+					"	id_image_path, entry_date\r\n" + 
 					"FROM \r\n" + 
 					"	visitor INNER JOIN visitorentry ON 1=1 AND visitor.id = visitorentry.V_ID\r\n" + 
 					"WHERE ";
 			query = query.concat(queryParam);
-			System.out.println(query);
+			query = query.concat(" ORDER BY VISIT_DATE DESC,VISIT_TIME DESC");
 			NativeQuery executionQuery = session.createSQLQuery(query);
 			visitorList = executionQuery.list();
 			
@@ -145,34 +147,29 @@ public class VisitorDAOImp {
 		finally {
 			session.close();
 		}
-		/*
-		visitorList.stream().forEach(
-				n -> {
-					System.out.println(n.getName());
-					System.out.println(n.getVisitorEntryList().size());
-				}
-		);*/
 		return visitorList;
 	}
 	
-	/*
 	@Transactional
-	public List<Visitor> getResult() {
+	public void captuerEntryTime(int passNo,String user) {
 		Session session = null;
-		List<Visitor> visitorList = null;
 		try {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
-			String query = "FROM Visitor v INNER JOIN v.visitorEntryList vList";
-			Query<Visitor> executionQuery = session.createQuery(query, Visitor.class);
-			visitorList = executionQuery.getResultList();
-			for(Visitor visitor : visitorList) {
-				System.out.println(visitor.getName());
+			VisitorEntry entry = session.get(VisitorEntry.class, passNo);
+			String entryUserName = Strings.nullToEmpty(entry.getEntryUser());
+			if(entryUserName.equals("")) {
+				entry.setEntryUser(user);
+				entry.setEntryTime(LocalDateTime.now());
 			}
 		}
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
-		return visitorList;
-	}*/
+		finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
 }

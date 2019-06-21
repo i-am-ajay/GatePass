@@ -56,7 +56,7 @@
 				<!-- Visit Reason -->
 				<div class="form-group row">
 					<label for="visitR_id" class="control-label font-weight-bold col-3 col-md-2">Visiting
-						Department</label>
+						Department<small class="text-danger">*</small></label>
 					<sf:input list="deptList" class="form-control form-control-sm col-6 col-md-8"
 						id="visitR_id" name="Visit" path="visitReason"
 						placeholder="Visiting Department" />

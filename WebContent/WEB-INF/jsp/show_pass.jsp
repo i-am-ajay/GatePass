@@ -134,7 +134,12 @@
 				</div>
 				    
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<form action="pass">
+						<input type="hidden" name="pass_no" value="${pass_visitor[0].toString()}" />
+						<input type="hidden" name="entry"  value="true" />
+						<input type="submit" class="btn btn-danger" value="OK" />
+					</form>
+					
 				</div>
    			</div>
   			</div>

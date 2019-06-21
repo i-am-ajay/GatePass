@@ -24,14 +24,26 @@ public class DepartmentDAOImp {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<String> getDeptList(){
-		System.out.println("Dept List method called.");
-		SessionFactory factory = sessionFactoryBean.getObject();
-		Session session = factory.openSession();
-		List<String> deptList = session.
-				createSQLQuery("SELECT Description FROM ProdigiousDB..CommonCodes(NOLOCK) WHERE Type='Department' AND STATUS = 'ACTIVE' ORDER BY Description").
-				list();
-		System.out.println(deptList.get(1));
-		
+		Session session = null;
+		List<String> deptList = null;
+		try {
+			System.out.println("Dept List method called.");
+			SessionFactory factory = sessionFactoryBean.getObject();
+			session = factory.openSession();
+			deptList = session.
+					createSQLQuery("SELECT Description FROM ProdigiousDB..CommonCodes(NOLOCK) WHERE Type='Department' AND STATUS = 'ACTIVE' ORDER BY Description").
+					list();
+			System.out.println(deptList.get(1));
+			
+			return deptList;
+		}
+		catch(Exception ex) {
+			
+		}
+		finally {
+			if(session != null)
+				session.close();
+		}
 		return deptList;
 	}
 	

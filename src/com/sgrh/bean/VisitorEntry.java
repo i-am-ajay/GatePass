@@ -1,6 +1,7 @@
 package com.sgrh.bean;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Component;
 
 @Entity
+@DynamicUpdate
 public class VisitorEntry {
 	
 	@Id
@@ -50,6 +53,12 @@ public class VisitorEntry {
 	@ManyToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name = "V_ID")
 	private Visitor visitor;
+	
+	@Column(name="entry_date")
+	private LocalDateTime entryTime;
+	
+	@Column(name="entry_user")
+	private String entryUser;
 	
 	/*
 	@Column(name = "Pass_No", nullable = false)
@@ -111,4 +120,22 @@ public class VisitorEntry {
 	public void setVisitor(Visitor visitor) {
 		this.visitor = visitor;
 	}
+
+	public LocalDateTime getEntryTime() {
+		return entryTime;
+	}
+
+	public void setEntryTime(LocalDateTime entryTime) {
+		this.entryTime = entryTime;
+	}
+
+	public String getEntryUser() {
+		return entryUser;
+	}
+
+	public void setEntryUser(String entryUser) {
+		this.entryUser = entryUser;
+	}
+	
+	
 }

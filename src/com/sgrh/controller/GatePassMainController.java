@@ -86,6 +86,7 @@ public class GatePassMainController {
 			@ModelAttribute("old_visitor") boolean oldVisitor, @ModelAttribute("visitor_entry") VisitorEntry en,
 			BindingResult result, HttpSession session) {
 		Visitor v = (Visitor)session.getAttribute("visitor");
+		
 		long gatePassNo = visitorDao.saveVisitor(visitor,oldVisitor,en);
 		String msg = "Welcome "+ visitor.getName() +" ! Your Gate Pass No : "+gatePassNo+". Issue Date : "+en.getVisitDate()
 		+".Dept : "+en.getVisitReason();
@@ -121,7 +122,6 @@ public class GatePassMainController {
 			@RequestParam("pass_no") String passNo,
 			Model model
 			){
-		System.out.println("Hello from processSearch method GatePassMainController.class");
 		model.addAttribute("deptList",departmentDao.getDeptList());
 		if(!Strings.isNullOrEmpty(name)) {
 			name= "name like '%".concat(name).concat("%'");
@@ -145,14 +145,12 @@ public class GatePassMainController {
 			toDate = "visitorentry.visit_date <= '".concat(toDate).concat("'");
 		}
 		String joiner = Joiner.on(" AND ").skipNulls().join("1=1",Strings.emptyToNull(name),Strings.emptyToNull(passNo),Strings.emptyToNull(contact),Strings.emptyToNull(company),Strings.emptyToNull(department),Strings.emptyToNull(fromDate),Strings.emptyToNull(toDate));
-		System.out.println(joiner);
 		model.addAttribute("visitorList", visitorDao.getSearchResult(joiner));
 		return "search_page";
 	}
 	
 	@RequestMapping("printing")
 	public String printBarcode(Model model, @ModelAttribute("visitor") Visitor visitor) {
-		System.out.println(visitor.getName());
 		return "barcode_printing";
 	}
 	
@@ -168,7 +166,6 @@ public class GatePassMainController {
 		else {
 		Visitor vis = (Visitor)session.getAttribute("visitor");
 		vis.getVisitorEntryList().add(entry); // In case we visitor is an old visitor this will fail if visitor entry list loading is lazy.
-		System.out.println("Method : fileUploader : Visitor Id "+visitor.getId());
 		if(!oldVisitor) {
 			String imgName = vis.getName() + vis.getContact();
 			String personImgName = imgName+"_person.jpeg";
@@ -182,7 +179,6 @@ public class GatePassMainController {
 			visitor.setIdImagePath(idImage);
 		}
 		//System.out.println("Processed Form"+visitor.getVisitorEntryList().get(0).getVisitReason());
-		System.out.println(entry.getVisitDate());
 		model.addAttribute("visitor",visitor);
 		model.addAttribute("visitor_entry",entry);
 		return "processed_form";
@@ -201,9 +197,6 @@ public class GatePassMainController {
 	            HttpServletRequest req, @Valid @ModelAttribute Visitor visitor, BindingResult result,HttpServletResponse response) {
 			String targetPath = null;
 			try {
-				System.out.println(visitor.getName());
-				System.out.println("qquuid "+uuid);
-				System.out.println("qqfilename"+fileName);
 		        UploadRequest request = new UploadRequest(uuid, file);
 		        request.setFileName(fileName);
 		        request.setTotalFileSize(totalFileSize);
@@ -261,7 +254,6 @@ public class GatePassMainController {
 	@RequestMapping("entry_page")
 	public String entryPage(Model model, final @ModelAttribute("visitor") Visitor visitor, @ModelAttribute("user") String user,final Errors error) {
 		model.addAttribute("visitor",visitor);
-		System.out.println("visitor id" + visitor.getId());
 		VisitorEntry entry = new VisitorEntry();
 		entry.setVisitDate(LocalDate.now());
 		entry.setVisitTime(LocalTime.now());
@@ -305,12 +297,9 @@ public class GatePassMainController {
 				String name=user.getUsername();
 				String pwd = user.getPassword();
 				password = "{NOOP}"+password;
-				System.out.println(name.equalsIgnoreCase(username));
-				System.out.println(pwd.equals(password));
 				
 				if(name.equalsIgnoreCase(username) && pwd.equals(password)) {
 					page = redirectPath;
-					System.out.println("TRUE");
 					HttpSession session = request.getSession();
 					session.setAttribute("isLogged", true);
 					session.setMaxInactiveInterval(60*60); // invalidate session after 10 min of inactivity
@@ -336,30 +325,39 @@ public class GatePassMainController {
 	
 	@RequestMapping(value = "log_out")
 	public String logOut( HttpSession session) {
-		System.out.println("Logout being called.");
 		session.invalidate();
 		return "redirect://";
 	}
 	
 	@RequestMapping(value = "pass")
-	public String showPass(@RequestParam(value="pass_no", defaultValue = "0") int passNo, Model model) {
+	public String showPass(@RequestParam(value="pass_no", defaultValue = "0") int passNo, 
+						   @RequestParam(value="entry", defaultValue="false") boolean entry,
+						   Model model, HttpSession session) {
 		
-		if(passNo != 0) {
-			try {
-				String passParam = "1 = 1 AND ".concat("visitorentry.pass_no = ".concat(Integer.toString(passNo)));
-				List<Object[]> visitorList =  visitorDao.getSearchResult(passParam);
-				//System.out.println(Arrays.toString(visitorList.get(0)));
-				if(visitorList.size() > 0) {
-					model.addAttribute("pass_visitor", visitorList.get(0));
+		if(!entry) {
+			//System.out.println("value of entry : "+entry);
+			if(passNo != 0) {
+				try {
+					String passParam = "1 = 1 AND ".concat("visitorentry.pass_no = ".concat(Integer.toString(passNo)));
+					List<Object[]> visitorList =  visitorDao.getSearchResult(passParam);
+					if(visitorList.size() > 0) {
+						model.addAttribute("pass_visitor", visitorList.get(0));
+					}
+					else {
+						passNo = 0;
+					}
 				}
-				else {
-					passNo = 0;
+				catch(Exception ex) {
+					ex.printStackTrace();
 				}
+				
 			}
-			catch(Exception ex) {
-				System.out.println("Not a valid pass no.");
-			}
-			
+		}
+		else {
+			//System.out.println("Session part called.");
+			visitorDao.captuerEntryTime(passNo, (String)session.getAttribute("user"));
+			passNo = 0;
+			entry = false;
 		}
 		model.addAttribute("pass_no",passNo);
 		return "show_pass";

@@ -97,8 +97,9 @@
 					</div>
 				</div>
 				<div class="row mt-3 mb-3">
-				<sf:form action="save" modelAttribute="visitor" method = "Post" class="col m-md-auto m-sm-left">
-					<input type="submit" class="btn btn-block btn-sm btn-secondary w-50 text-center m-sm-auto" value="Save"/>
+				<sf:form action="save" modelAttribute="visitor" method = "Post" class="col m-md-auto m-sm-left" id="form" >
+					<input id="saveBtn" type="submit" class="btn btn-block btn-sm btn-secondary w-50 text-center m-sm-auto" 
+					 value="Save"/>
 				</sf:form>
 				<form action="clear" method = "Post" class="col m-md-auto m-sm-left">
 					<input type="submit" class="btn btn-block btn-sm btn-secondary w-50 text-center m-sm-auto" value="Clear"/>
@@ -110,9 +111,10 @@
 	<script type="text/javascript">
 	//IEEF will register a button event handler.
 		(function (){
-			var btnElement = document.getElementById("printBtn").addEventListener("click",function(){
-				//window.print();
-				window.location.href="printing";
+			var btnElement = document.getElementById("saveBtn");
+			btnElement.addEventListener("click",function(){
+				document.getElementById("form").submit();
+				btnElement.disabled = true;
 			});
 		}());
 	</script>

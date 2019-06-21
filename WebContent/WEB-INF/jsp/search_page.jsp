@@ -18,6 +18,30 @@
 	.modal{
 		position : sticky;
 	}
+	
+	<!-- Code to make table header fixed. -->
+	.table-fixed tbody {
+	height: 200px;
+	overflow-y: auto;
+	width: 100%;
+	}
+	.table-fixed thead,
+	.table-fixed tbody,
+	.table-fixed tr,
+	.table-fixed td,
+	.table-fixed th {
+	display: block;
+	}
+	.table-fixed tr:after {
+	content: "";
+	display: block;
+	visibility: hidden;
+	clear: both;
+	}
+	.table-fixed tbody td,
+	.table-fixed thead > tr > th {
+	float: left;
+	}
 </style>
 </head>
 <body>
@@ -92,7 +116,7 @@
 		</div>
 		</sf:form>
 		<!-- Result Table -->
-		<table class="table table-sm table-striped m-auto">
+		<table class="table table-sm table-striped m-auto ">
 		  <thead>
 		    <tr>
 		      <th scope="col">#</th>
@@ -104,6 +128,7 @@
 		      <th scope="col" class="d-none d-md-table-cell">Company</th>
 		      <th scope="col">Visiting Department</th>
 		      <th scope="col" class="d-none d-md-table-cell">Visit Time</th>
+		      <th scope="col" class="d-none d-md-table-cell">Entry Time</th>
 		      <th scope="col">Person Image</th>
 		      <th scope="col">Id Image</th>
 		    </tr>
@@ -123,6 +148,7 @@
 		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[6].toString()}" /></td>
 		    			<td><core:out value="${visitor[7].toString()}" /></td>
 		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[8].toString()} ${visitor[9].toString()}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[12].toString().substring(0,16)}" /></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor[10].toString()}" 
 		    				data-toggle="modal" data-target="#personImg<%=counter %>"/></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor[11].toString()}" 

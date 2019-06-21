@@ -98,10 +98,12 @@
 					<!-- Company Details -->
 					<div class="form-group row">
 						<!-- City-->
-						<label for="company_id" class="control-label font-weight-bold col-3 col-sm-2">Company</label>
+						<label for="company_id" class="control-label font-weight-bold col-3 col-sm-2">Company<small class="text-danger">*</small></label>
 						<sf:input type="text" class="form-control form-control-sm col-6 col-md-8"
 							id="company_id" name="company" path="company"
 							placeholder="Company Name" />
+						<sf:errors path="name" element="div"
+							cssClass=" border broder-primary alert alert-danger w-25 mt-1 ml-auto mr-auto p-1 font-weight-light col-6 col-sm-8" />
 					</div>
 					
 					<!-- Send to Photo Click page -->
