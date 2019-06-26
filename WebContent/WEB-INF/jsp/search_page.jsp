@@ -129,6 +129,7 @@
 		      <th scope="col">Visiting Department</th>
 		      <th scope="col" class="d-none d-md-table-cell">Visit Time</th>
 		      <th scope="col" class="d-none d-md-table-cell">Entry Time</th>
+		      <th scope="col" class="d-none d-md-table-cell">Visit Reason</th>
 		      <th scope="col">Person Image</th>
 		      <th scope="col">Id Image</th>
 		    </tr>
@@ -149,6 +150,7 @@
 		    			<td><core:out value="${visitor[7].toString()}" /></td>
 		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[8].toString()} ${visitor[9].toString()}" /></td>
 		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[12].toString().substring(0,16)}" /></td>
+		    			<td class="d-none d-md-table-cell"><core:out value="${visitor[13].toString()}" /></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor[10].toString()}" 
 		    				data-toggle="modal" data-target="#personImg<%=counter %>"/></td>
 		    			<td><img width="60" height="80" src="${pageContext.request.contextPath}/static_resource/images/${visitor[11].toString()}" 

@@ -127,7 +127,7 @@ public class VisitorDAOImp {
 			SessionFactory sFactory = factory.getObject();
 			session = sFactory.openSession();
 			String query = "SELECT Pass_No,ID,Name,Address,Contact,email,Company,VISIT_DEPARTMENT,VISIT_DATE,VISIT_TIME,image_path,\r\n" + 
-					"	id_image_path, entry_date\r\n" + 
+					"	id_image_path, entry_date, reason\r\n" + 
 					"FROM \r\n" + 
 					"	visitor INNER JOIN visitorentry ON 1=1 AND visitor.id = visitorentry.V_ID\r\n" + 
 					"WHERE ";

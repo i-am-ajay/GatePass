@@ -50,6 +50,11 @@ public class VisitorEntry {
 	@Column(name = "user")
 	private String user;
 	
+	@Column(name="reason")
+	@NotNull(message="Cannot be blank")
+	@Size(min=1, message="Cannot be blank")
+	private String reason;
+	
 	@ManyToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name = "V_ID")
 	private Visitor visitor;
@@ -88,6 +93,12 @@ public class VisitorEntry {
 		this.visitReason = visitReason;
 	}
 	
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	public String getReason() {
+		return reason;
+	}
 	/*
 	public int getGatePassNo() {
 		return gatePassNo;

@@ -302,7 +302,7 @@ public class GatePassMainController {
 					page = redirectPath;
 					HttpSession session = request.getSession();
 					session.setAttribute("isLogged", true);
-					session.setMaxInactiveInterval(60*60); // invalidate session after 10 min of inactivity
+					session.setMaxInactiveInterval(60*60); // invalidate session after 1 hour of inactivity
 					//userName = user.getUsername();
 					model.addAttribute("user",user.getUsername());
 				}

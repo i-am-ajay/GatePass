@@ -100,16 +100,24 @@
 							class="div-2 col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">Address</div>
 						<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">${pass_visitor[3].toString()}</div>
 					</div>
-					<!-- Visit Reason -->
+					<!-- Visit Department -->
 					<div class="row">
 						<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
-							Visit Reason</div>
+							Visit Department</div>
 						<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 							${pass_visitor[7].toString()}</div>
 						<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
 							Visit Time</div>
 						<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 							${pass_visitor[8].toString()} ${pass_visitor[9].toString()}</div>
+					</div>
+					
+					<!-- Visit Reason -->
+					<div class="row">
+						<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
+							Visit Reason</div>
+						<div class="col-md-10 col-xs-6 border text-capitalize p-1 pl-5">
+							${pass_visitor[13].toString()}</div>
 					</div>
 			
 					<!-- Display Image and Time -->

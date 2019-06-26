@@ -67,7 +67,7 @@
 				<!-- Visit Reason -->
 				<div class="row">
 					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
-						Visit Reason</div>
+						Visit Department</div>
 					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 						${visitor_entry.visitReason}</div>
 					<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
@@ -75,6 +75,14 @@
 					<div class="col-md-4 col-xs-6 border text-capitalize p-1 pl-5">
 						${visitor_entry.visitDate} ${visitor_entry.visitTime}</div>
 				</div>
+				
+				<!-- Visit Reason -->
+					<div class="row">
+						<div class="col-md-2 col-xs-6 border font-weight-bold text-uppercase p-1 pl-2">
+							Visit Reason</div>
+						<div class="col-md-10 col-xs-6 border text-capitalize p-1 pl-5">
+							${visitor_entry.reason}</div>
+					</div>
 				
 				<!-- Display Image and Time -->
 				<div class="row">
